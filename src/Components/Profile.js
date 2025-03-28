@@ -2,6 +2,7 @@ import '../Styles/Profile.css';
 import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
+import { MdDelete } from 'react-icons/md';
 
 const Profile = () => {
     const [userData, setUserData] = useState({
@@ -41,6 +42,13 @@ const Profile = () => {
         setUserData((prev) => ({ ...prev, images: [...prev.images, ...files] }));
     };
 
+    const handleImageDelete = (index) => {
+        setUserData(prev => ({
+            ...prev,
+            images: prev.images.filter((_, i) => i !== index)
+        }));
+    };
+
     return (
         <div className="profile-container">
             <h2 className="profile-title">Profil szerkesztése</h2>
@@ -48,7 +56,7 @@ const Profile = () => {
             <form className="profile-edit-form" onSubmit={(e) => { e.preventDefault(); alert('Profile updated successfully!'); }}>
                 <div className="form-row">
                     <div className="form-group">
-                        <label>Username</label>
+                        <label>Felhasználónév</label>
                         <input type="text" name="username" value={userData.username} onChange={handleChange} />
                     </div>
 
@@ -60,32 +68,32 @@ const Profile = () => {
 
                 <div className="form-row">
                     <div className="form-group">
-                        <label>Age</label>
+                        <label>Név</label>
                         <input type="number" name="age" value={userData.age} onChange={handleChange} />
                     </div>
 
                     <div className="form-group">
-                        <label>Sex</label>
+                        <label>Nem</label>
                         <select name="sex" value={userData.sex} onChange={handleChange}>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                            <option value="other">Other</option>
+                            <option value="male">Férfi</option>
+                            <option value="female">Nő</option>
+                            <option value="other">Egyéb</option>
                         </select>
                     </div>
 
                     <div className="form-group">
-                        <label>Interested in</label>
+                        <label>Kit keres?</label>
                         <select name="searchedSex" value={userData.searchedSex} onChange={handleChange}>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                            <option value="both">Both</option>
+                            <option value="male">Férfi</option>
+                            <option value="female">Nő</option>
+                            <option value="both">Mindenki</option>
                         </select>
                     </div>
                 </div>
 
                 <div className="form-row">
                     <div className="form-group full-width">
-                        <label>Preferred Age Range: {userData.ageRange[0]} - {userData.ageRange[1]}</label>
+                        <label>Keresett életkor: {userData.ageRange[0]} - {userData.ageRange[1]}</label>
                         <div className="age-range-slider-container">
                             <Box sx={{ width: '100%', padding: '0 16px', marginTop: '20px' }}>
                                 <Slider
@@ -109,9 +117,9 @@ const Profile = () => {
                 </div>
 
                 <div className="form-group full-width">
-                    <label>Upload Images</label>
+                    <label>Képek</label>
                     <div className="image-upload-box" onClick={() => document.getElementById("hiddenFileInput").click()} >
-                        Click here or drag & drop images
+                        Húzza ide a képeket vagy kattintson a feltöltéshez
                     </div>
                     <input 
                         type="file" 
@@ -123,12 +131,15 @@ const Profile = () => {
                     />
                     <div className="image-preview">
                         {userData.images.map((image, index) => (
-                            <img key={index} src={URL.createObjectURL(image)} alt="Uploaded Preview" className="preview-img" />
+                             <div key={index} className="image-container">
+                                <img key={index} src={URL.createObjectURL(image)} alt="Uploaded Preview" className="preview-img" />
+                                <button type="button" className="delete-button" onClick={() => handleImageDelete(index)}><MdDelete className="delete-icon" /></button>
+                            </div>
                         ))}
                     </div>
                 </div>
 
-                <button type="submit" className="save-button">Save Changes</button>
+                <button type="submit" className="save-button">Mentés</button>
             </form>
         </div>
     );

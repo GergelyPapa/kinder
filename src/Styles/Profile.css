@@ -239,3 +239,42 @@
 .age-range-slider:nth-child(2)::-webkit-slider-thumb {
   background: #2ecc71;
 }
+
+::-webkit-scrollbar {
+  width: 10px; 
+}
+
+::-webkit-scrollbar-track {
+  background: #f0f0f0; 
+}
+
+::-webkit-scrollbar-thumb {
+  background: pink; 
+  border-radius: 5px; 
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hotpink; 
+}
+
+.delete-button {
+  background: none;
+  border: none; /* Border eltávolítása */
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+}
+
+.delete-icon {
+  color: red;
+  font-size: 24px;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+.delete-icon:hover {
+  transform: scale(1.2);
+}
