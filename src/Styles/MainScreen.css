@@ -12,6 +12,20 @@ html, body {
     touch-action: none;
 }
 
+.main-screen-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 400px;
+    height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow: hidden;
+    position: relative;
+}
+
 .main-screen-container {
     display: flex;
     flex-direction: column;
@@ -123,3 +137,63 @@ html, body {
     background-color: #ccc; /* Szürke háttér letiltott állapotban */
     cursor: not-allowed;
 }
+
+
+.user-menu {
+    position: fixed; /* Változtasd meg fixed-re */
+    top: 20px; /* Pozícionálás felülről */
+    right: 20px; /* Pozícionálás jobbról */
+    z-index: 1000;
+  }
+  
+  .user-icon {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    transition: transform 0.2s;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  }
+  
+  #profilkep {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit:scale-down;
+  }
+  
+  .dropdown-menu {
+    position: absolute;
+    right: 0;
+    top: 50px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    min-width: 180px;
+    overflow: hidden;
+  }
+  
+  .dropdown-menu button {
+    display: block;
+    width: 100%;
+    padding: 12px 16px;
+    text-align: left;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+    transition: background 0.2s;
+  }
+  
+  .dropdown-menu button:hover {
+    background-color: #f5f5f5;
+  }
+  

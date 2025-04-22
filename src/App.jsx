@@ -1,5 +1,5 @@
 import React from 'react';
-
+import Profile from './Components/Profile';
 import Login from './Components/Login';
 import MainScreen from './Components/MainScreen';
 import './Styles/Auth.css'
@@ -19,9 +19,8 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route element={<ProtectedRoute />}>
-       
             <Route path="/mainScreen" element={<MainScreen />} />
-           
+            <Route path="/profile" element={<Profile />} />
           </Route>
         </Routes>
       </BrowserRouter>
