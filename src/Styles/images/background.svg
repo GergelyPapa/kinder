@@ -1,0 +1,60 @@
+<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 0.6; }
+      50% { transform: scale(1.1); opacity: 0.9; }
+    }
+    @keyframes fadePulse {
+      0%, 100% { opacity: 0.2; }
+      50% { opacity: 0.5; }
+    }
+    .background {
+      fill: #ffa0a0;
+    }
+    .heart {
+      fill: white;
+      opacity: 0.6;
+    }
+    .heart-animated {
+      fill: #ff6b8b;
+      transform-origin: center;
+      animation: pulse 4s infinite ease-in-out;
+    }
+    .heart-float {
+      fill: white;
+      opacity: 0.4;
+      animation: float 5s infinite ease-in-out;
+    }
+    .subtle-shape {
+      fill: white;
+      opacity: 0.15;
+      animation: fadePulse 7s infinite ease-in-out;
+    }
+  </style>
+  
+  <!-- Alap háttér -->
+  <rect width="400" height="400" class="background"/>
+  
+  <!-- Nagyon halvány, alig észrevehető háttér elemek -->
+  <path d="M0,250 Q100,200 200,250 T400,250 L400,400 L0,400 Z" class="subtle-shape"/>
+  <path d="M400,150 Q300,200 200,150 T0,150 L0,0 L400,0 Z" class="subtle-shape" style="animation-delay: -3.5s"/>
+  
+  <!-- Lebegő szívek -->
+  <path d="M80 80 L95 65 Q105 55 95 45 Q85 35 80 45 Q75 35 65 45 Q55 55 65 65 Z" class="heart-float" style="animation-delay: -1s"/>
+  <path d="M320 80 L335 65 Q345 55 335 45 Q325 35 320 45 Q315 35 305 45 Q295 55 305 65 Z" class="heart-float" style="animation-delay: -2s"/>
+  <path d="M80 320 L95 305 Q105 295 95 285 Q85 275 80 285 Q75 275 65 285 Q55 295 65 305 Z" class="heart-float" style="animation-delay: -3s"/>
+  <path d="M320 320 L335 305 Q345 295 335 285 Q325 275 320 285 Q315 275 305 285 Q295 295 305 305 Z" class="heart-float" style="animation-delay: -4s"/>
+  
+  <!-- Központi szív -->
+  <path d="M200 200 L220 180 Q235 165 220 150 Q205 135 200 150 Q195 135 180 150 Q165 165 180 180 Z" class="heart-animated"/>
+  
+  <!-- Kis szívek -->
+  <path d="M150 150 L155 145 Q158 142 155 139 Q152 136 150 139 Q148 136 145 139 Q142 142 145 145 Z" class="heart" style="opacity: 0.3;"/>
+  <path d="M250 150 L255 145 Q258 142 255 139 Q252 136 250 139 Q248 136 245 139 Q242 142 245 145 Z" class="heart" style="opacity: 0.3;"/>
+  <path d="M150 250 L155 245 Q158 242 155 239 Q152 236 150 239 Q148 236 145 239 Q142 242 145 245 Z" class="heart" style="opacity: 0.3;"/>
+  <path d="M250 250 L255 245 Q258 242 255 239 Q252 236 250 239 Q248 236 245 239 Q242 242 245 245 Z" class="heart" style="opacity: 0.3;"/>
+</svg>

@@ -1,0 +1,350 @@
+/* Eredeti CSS (.chat-container, .chat-sidebar, stb. változatlan) */
+.chat-container {
+  display: flex;
+  height: 80vh;
+  background: #f0f2f5;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  cursor: default;
+}
+
+/* Sidebar Styles */
+.chat-sidebar {
+  width: 350px;
+  background: #ffffff;
+  border-right: 1px solid #e9edef;
+  display: flex;
+  flex-direction: column;
+}
+
+.section-title {
+  padding: 16px;
+  color: #667781;
+  font-size: 0.9em;
+  font-weight: 500;
+}
+
+/* New Connections */
+.uncontacted-section {
+  padding: 0 16px 16px;
+  border-bottom: 1px solid #e9edef;
+}
+
+.uncontacted-bubbles {
+  display: flex;
+  overflow-x: auto;
+  padding: 8px 0;
+  gap: 15px;
+}
+
+/* Avatar Styles */
+.avatar-bubble {
+  flex-shrink: 0;
+  position: relative;
+}
+
+.avatar-image {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.online-status {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #31a24c;
+  border: 2px solid #ffffff;
+}
+
+/* Contact List */
+.contacted-section {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.contact-list {
+  padding: 0 16px;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  transition: background 0.2s;
+}
+
+.contact-item.active {
+  background: #f5f6f6;
+}
+
+.avatar-container {
+  position: relative;
+}
+
+.contact-info {
+  margin-left: 15px;
+  flex: 1;
+  min-width: 0;
+}
+
+.contact-name {
+  font-weight: 500;
+  color: #111b21;
+  margin-bottom: 4px;
+}
+
+.last-message {
+  font-size: 0.9em;
+  color: #667781;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Chat Window */
+.chat-window {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #efeae2;
+}
+
+.chat-header {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  background: #f0f2f5;
+  border-bottom: 1px solid #e9edef;
+}
+
+.header-avatar {
+  position: relative;
+  margin-right: 15px;
+}
+
+.header-info {
+  flex: 1;
+}
+
+.contact-status {
+  font-size: 0.9em;
+  color: #667781;
+}
+
+/* Messages */
+.messages-container {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAQ0lEQVRoge3BMQEAAADCoPVP7WcKoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA4A8G8AABWZ0VJwAAAABJRU5ErkJggg==');
+  display: flex;
+  flex-direction: column;
+}
+
+.message {
+  max-width: 70%;
+  margin-bottom: 16px;
+  display: flex; /* Marad flex, hogy a .message-content nyúljon */
+}
+
+.message.sent {
+  /* justify-content: flex-end;  Ezt kivesszük, mert a message-content-nek kell pozicionálnia */
+  margin-left: auto; /* Jobbra igazítjuk a teljes message blokkot */
+  /* A tényleges "buborék" a .message-content lesz */
+}
+
+.message.received {
+  /* justify-content: flex-start; Ezt kivesszük */
+  margin-right: auto; /* Balra igazítjuk */
+}
+
+/* --- MÓDOSÍTOTT RÉSZ --- */
+.message-content {
+  padding: 8px 12px;
+  padding-right: 60px;  /* Hely az időbélyegnek */
+  padding-bottom: 20px; /* Hely az időbélyegnek */
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
+  position: relative;
+  min-width: 85px;
+
+  /* --- MÓDOSÍTÁSOK / KIEGÉSZÍTÉSEK --- */
+  max-width: 100%;          /* Biztosítja, hogy ne legyen szélesebb a szülőnél */
+  overflow-wrap: break-word;/* Szabványosabb sortörés */
+  word-wrap: break-word;    /* Régebbi böngészőkhöz fallback (maradhat) */
+  word-break: break-word;   /* Segít törni a nagyon hosszú szavakat is */
+  /* --- MÓDOSÍTÁSOK / KIEGÉSZÍTÉSEK VÉGE --- */
+}
+/* --- MÓDOSÍTOTT RÉSZ VÉGE --- */
+
+.message.sent .message-content {
+  background: #d9fdd3;
+  border-radius: 8px 8px 0 8px;
+}
+
+.message.received .message-content {
+  background: #ffffff;
+  border-radius: 8px 8px 8px 0;
+}
+
+/* --- ÚJ RÉSZ --- */
+.message-timestamp {
+    position: absolute;   /* Abszolút pozicionálás a .message-content-en belül */
+    bottom: 5px;          /* Távolság alulról */
+    right: 8px;           /* Távolság jobbról */
+    font-size: 0.7em;     /* Kisebb betűméret */
+    color: #999;           /* Halvány szürke szín */
+    line-height: 1;       /* Sor magasság normalizálása */
+    white-space: nowrap;  /* Ne törjön több sorba az idő */
+    /* user-select: none; */ /* Opcionális: Ne legyen kijelölhető */
+}
+
+/* Opcionális: Külön szín a küldött üzenetek időbélyegének */
+.message.sent .message-timestamp {
+    color: #6a837f; /* Sötétebb zöldes/szürkés */
+}
+/* --- ÚJ RÉSZ VÉGE --- */
+
+/* Message Input */
+.message-input {
+  display: flex;
+  padding: 16px;
+  background: #f0f2f5;
+  border-top: 1px solid #e9edef;
+}
+
+.message-input input {
+  flex: 1;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid #e9edef;
+  margin-right: 8px;
+  font-size: 1em;
+}
+
+.message-input button {
+  background: #00a884;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.empty-chat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #667781;
+  font-size: 1.2em;
+}
+
+.empty-icon {
+  font-size: 3em;
+  margin-bottom: 16px;
+  opacity: 0.6;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0,0,0,0.05);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.2);
+  border-radius: 3px;
+}
+
+
+
+.messages-container {
+  /* ... változatlan ... */
+}
+
+.message {
+  max-width: 70%;
+  margin-bottom: 12px; /* Kicsit csökkenthetjük a margót */
+  display: flex;       /* Flex konténer lesz */
+  /* align-items: flex-end; Vegyük ki innen, mert a sent/received külön kezeli */
+}
+
+.message.sent {
+  margin-left: auto;   /* Jobbra igazítás */
+  /* Nincs szükség display:flex-re, ha csak a content van benne */
+}
+
+.message.received {
+  margin-right: auto;  /* Balra igazítás */
+  display: flex;       /* Avatar és content egymás mellé */
+  align-items: flex-end; /* Alulra igazítja az avatart és a buborékot */
+}
+
+/* --- ÚJ STÍLUSOK az üzenet melletti avatarhoz --- */
+.message-avatar {
+  margin-right: 8px; /* Távolság az avatar és a buborék között */
+  flex-shrink: 0;   /* Ne zsugorodjon */
+}
+
+.message-avatar img {
+  width: 30px;          /* Kisebb méret az üzenet mellett */
+  height: 30px;
+  border-radius: 50%;   /* Kör alak */
+  object-fit: cover;
+  display: block;       /* Megszünteti az esetleges extra helyet alatta */
+  /* border: 1px solid #eee; */ /* Opcionális halvány keret */
+}
+/* --- ÚJ STÍLUSOK VÉGE --- */
+
+
+.message-content {
+  padding: 8px 12px;
+  padding-right: 60px;
+  padding-bottom: 20px;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.08); /* Kicsit finomabb árnyék */
+  position: relative;
+  word-wrap: break-word;
+  min-width: 85px;
+}
+
+.message.sent .message-content {
+  background: #d9fdd3;
+  border-radius: 8px 8px 0 8px;
+}
+
+.message.received .message-content {
+  background: #ffffff;
+  border-radius: 0 8px 8px 8px; /* Bal felső sarok is legyen szögletes */
+}
+
+.message-timestamp {
+    position: absolute;
+    bottom: 5px;
+    right: 8px;
+    font-size: 0.7em;
+    color: #999;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.message.sent .message-timestamp {
+    color: #6a837f;
+}

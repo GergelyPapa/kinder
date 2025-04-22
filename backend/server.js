@@ -1,31 +1,60 @@
-const express=require("express")
-const sequelize=require('./config/db')
-const authRoutes=require('./routes/authRoutes')
-const authenticateToken=require('./middleware/authMiddleware')
-const cookieParser=require('cookie-parser')
-const dotenv=require('dotenv')
-const cors=require("cors")
+// server.js
+const express = require("express");
+const sequelize = require('./config/db');
+const http = require('http'); 
+const cookieParser = require('cookie-parser');
+const dotenv = require('dotenv');
+const cors = require("cors");
 
-dotenv.config()
-const app=express()
+// Route importok
+const authRoutes = require('./routes/authRoutes');
+const editProfile = require('./routes/editProfile');
+const findPeople = require('./routes/findPeople');
+const swipe = require('./routes/swipe');
+const chatRoutes = require('./routes/Chat');
 
-app.use(express.json())
-app.use(cookieParser())
 
-app.use(cors({
+const initializeSocket = require('./socket/socketHandler'); 
+
+dotenv.config();
+
+const app = express();
+
+
+const httpServer = http.createServer(app); 
+
+
+const corsOptions = {
   origin: "http://localhost:3000", 
   methods: "GET,POST,PUT,DELETE",
   allowedHeaders: "Content-Type,Authorization",
-  credentials: true 
-}));
+  credentials: true
+};
+
+// Middleware-k
+app.use(cors(corsOptions)); 
+app.use(express.json());
+app.use(cookieParser());
+
+// Route-ok
+app.use('/auth', authRoutes);
+
+app.use('/editProfile', editProfile);
+app.use('/api', findPeople);
+app.use("/api", swipe);
+app.use('/api', chatRoutes);
 
 
-app.use('/auth',authRoutes)
+initializeSocket(httpServer, corsOptions); 
 
-app.get('/protected',authenticateToken,(req,res)=>{
-    res.json({message:"You have accessed a protected route",user:req.user})
-})
 
-sequelize.sync().then(()=>{
-    app.listen(process.env.PORT||4000,()=>console.log(`server running on: ${process.env.PORT||4000}`))
-})
+sequelize.sync().then(() => {
+    const PORT = process.env.PORT || 4000;
+   
+    httpServer.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+       
+    });
+}).catch(err => {
+    console.error('Unable to connect to the database:', err);
+});

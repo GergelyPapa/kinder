@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs");
 const User = require("../models/User");
 const dotenv = require("dotenv");
 const cookieParser = require("cookie-parser");
+const authenticateToken = require("../middleware/authMiddleware");
 
 dotenv.config();
 
@@ -12,7 +13,7 @@ router.use(cookieParser());
 
 const activeRefreshTokens = new Set(); // itt tároljuk a tokeneket
 router.post("/register", async (req, res) => {
-  const { username, password, email, age, bio, sex, searchedSex, minAge, maxAge } = req.body;
+  const { username, password, email, dob, bio, sex, searchedSex, minAge, maxAge } = req.body;
 
 
   try {
@@ -27,7 +28,7 @@ router.post("/register", async (req, res) => {
       return res.status(400).json({ message: "Email already in use" });
     }
 
-  
+
     const hashedPassword = await bcrypt.hash(password, 10);
 
 
@@ -35,7 +36,7 @@ router.post("/register", async (req, res) => {
       username,
       email,
       passwordHash: hashedPassword,
-      age,
+      dob,
       bio,
       sex,
       searchedSex,
@@ -63,7 +64,7 @@ router.post("/login", async (req, res) => {
     return res.status(400).json({ message: "Invalid username or password " });
 
   const accessToken = jwt.sign(
-    { id: user.id, username: user.username },
+    { id: user.id, username: user.username, email: user.email ,searchedSex: user.searchedSex, minAge: user.minAge, maxAge: user.maxAge},
     process.env.JWT_SECRET,
     { expiresIn: "15m" }
   );
@@ -134,32 +135,20 @@ router.post("/logout", (req, res) => {
   res.json({ message: "Logged out successfully" });
 });
 
-router.get("/dev-token", (req, res) => {
-  // Only allow in development environment
-  if (process.env.NODE_ENV !== "development") {
-    return res.status(403).json({ error: "Forbidden in production mode" });
+router.get('/check', (req, res) => {
+  const token = req.headers.authorization?.split(' ')[1];
+
+  if (!token) {
+    return res.status(401).json({ error: 'Access token is missing' });
   }
 
-  const testUser = { id: 999, username: "testuser" };
-  const accessToken = jwt.sign(testUser, process.env.SECRET_KEY, {
-    expiresIn: "30d",
-  });
-  const refreshToken = jwt.sign(testUser, process.env.REFRESH_SECRET, {
-    expiresIn: "365d",
-  });
-
-  activeRefreshTokens.add(refreshToken);
-
-  res.cookie("refreshToken", refreshToken, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "Strict",
-    maxAge: 365 * 24 * 60 * 60 * 1000,
-  });
-  res.json({
-    message: "Dev token created",
-    accessToken,
-    note: "This token is for development only",
+  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+    if (err) {
+      return res.status(403).json({ error: 'Invalid or expired access token' });
+    }
+    
+    res.json({ message: 'Token is valid', user });
   });
 });
+
 module.exports = router;

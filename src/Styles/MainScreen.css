@@ -1,125 +1,494 @@
-/* MainScreen.css */
-html, body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-    touch-action: none;
+/* src/Styles/MainScreen.css */
+
+/* Alap HTML és Body stílusok */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden; /* <<<--- ITT TÁVOLÍTSD EL A KOMMENTET */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url('../Styles//images/background.svg');
+  touch-action: none; /* Mobil érintéshez */
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
+/* Fő konténer stílusai */
 .main-screen-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    max-width: 400px;
-    height: 100vh;
-    padding: 20px;
-    box-sizing: border-box;
-    overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  padding: 15px;
+  box-sizing: border-box;
 }
 
+/* Cím stílusa */
+.main-screen-container h1 {
+  color: #fff;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+/* Kártya konténer alap (mobil) stílusai */
 .card-container {
-    position: relative;
-    width: 100%;
-    max-width: 350px;
-    height: 500px;
-    perspective: 1000px;
+  position: relative;
+  width: 90vw;
+  max-width: 380px;
+  height: 65vh;
+  perspective: 1000px;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+  min-height: 300px;
 }
 
+/* Üzenet, ha nincs több ember */
+.no-people-message {
+  text-align: center;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  border-radius: 15px;
+  max-width: 80%;
+}
+
+.no-people-message h2 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+/* Swipeable kártya wrapper */
 .swipe {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    touch-action: none;
-    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    will-change: transform;
-    backface-visibility: hidden;
-    user-select: none;
-    pointer-events: auto;
-    z-index: 2;
-    cursor: grab;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  touch-action: none;
+  will-change: transform;
+  user-select: none;
+  cursor: grab;
 }
 
+/* Maga a kártya */
 .card {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    background-size: cover;
-    background-position: center;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    padding: 20px;
-    box-sizing: border-box;
-    color: white;
-    font-size: 20px;
-    font-weight: bold;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
-    overflow: hidden;
-    transform: translateZ(0);
-    cursor: grab;
-    pointer-events: auto;
-    user-select: none;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 25px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  background-color: #eee;
+  transform: translateZ(0);
 }
 
+/* Kártya képe */
+.card-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  z-index: 1;
+}
+
+/* Átmenet a kép alján */
 .card::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 10%, transparent 90%);
+  z-index: 2;
+  pointer-events: none;
+  border-radius: 0 0 25px 25px;
+}
+
+/* Kártya szövege */
+.card-text {
+  position: relative;
+  color: white;
+  padding: 20px;
+  z-index: 3;
+  font-size: 1.6rem;
+  font-weight: bold;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+.card-text h3 {
+  margin: 0;
+  line-height: 1.2;
+}
+
+/* Képváltó overlay-ek */
+.image-nav-overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  z-index: 4; /* Z-index növelve, hogy a swipe feedback felett legyen? Teszteld! */
+  cursor: pointer;
+}
+.image-nav-overlay.left {
+  left: 0;
+}
+.image-nav-overlay.right {
+  right: 0;
+}
+
+/* Swipe irányító gombok (mobil/alap) */
+.swipe-controls {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 15px;
+  margin-top: 10px;
+  width: 80%;
+  max-width: 300px;
+  flex-shrink: 0;
+}
+
+/* Gombok stílusa */
+.swipe-button {
+  border: none;
+  border-radius: 50%;
+  width: 65px;
+  height: 65px;
+  font-size: 30px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  user-select: none;
+  color: white;
+  background-color: white;
+}
+.swipe-button--left {
+  background: linear-gradient(135deg, #fd297b, #ff655b);
+  color: white;
+}
+.swipe-button--right {
+  background: linear-gradient(135deg, #2bdb7c, #1de9b6);
+  color: white;
+}
+.swipe-button:hover:not(:disabled) {
+  transform: scale(1.1);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+.swipe-button:active:not(:disabled) {
+  transform: scale(1.05);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+.swipe-button:disabled {
+  background: #e0e0e0;
+  color: #9e9e9e;
+  box-shadow: none;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Swipe visszajelzés (NOPE/LIKE) */
+.swipe-feedback {
+  position: absolute;
+  top: 40px;
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: 4px solid;
+  font-size: 32px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  z-index: 5;
+  user-select: none;
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(0.5) rotate(0deg);
+  transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+}
+.swipe-feedback span {
+  display: block;
+}
+.swipe-feedback.nope {
+  left: 20px;
+  border-color: #fd297b;
+  color: #fd297b;
+  transform: scale(0.5) rotate(-15deg);
+}
+.swipe-feedback.like {
+  right: 20px;
+  border-color: #2bdb7c;
+  color: #2bdb7c;
+  transform: scale(0.5) rotate(15deg);
+}
+.swipe-feedback.visible {
+  opacity: 0.8;
+  transform: scale(1) rotate(-15deg);
+}
+.swipe-feedback.like.visible {
+  transform: scale(1) rotate(15deg);
+}
+
+/* Szimulált státuszsáv - ALAPÉRTELMEZETTEN REJTETT (mobil) */
+.phone-status-bar {
+  display: none;
+}
+
+/* ----- Asztali nézet - Telefon keret igazodik a tartalomhoz ----- */
+@media (min-width: 1024px) {
+  html,
+  body {
+    /* overflow: auto; */ /* Ha kell a görgetés asztalon, vedd ki a kommentet */
+  }
+
+  .main-screen-container {
+    padding: 30px 15px;
+    justify-content: center;
+  }
+
+  .main-screen-container h1 {
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+  }
+
+  /* Telefon keret - Mérete a tartalomtól függ */
+  .phone-frame {
+    display: inline-block; /* Méret igazodjon a tartalomhoz */
+    width: auto; /* Nincs fix szélesség */
+    /* height: auto; */ /* Nincs fix magasság */
+    background-color: #1c1c1c;
+    border-radius: 40px; /* Külső lekerekítés */
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3),
+      inset 0 0 10px rgba(0, 0, 0, 0.5);
+    padding: 10px; /* Keret vastagsága */
+    box-sizing: border-box;
+    position: relative;
+    margin: 0 auto;
+    flex-shrink: 0;
+  }
+
+  /* Opcionális Notch - Lehet, hogy furán néz ki dinamikus méretnél */
+  .phone-frame::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(to top, rgba(0,0,0,0.8) 20%, transparent 60%);
-    transition: opacity 0.3s ease;
-}
+    top: 0; /* Most a padding tetejéhez igazodik */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40%;
+    height: 20px; /* Kisebb notch */
+    background-color: #1c1c1c;
+    border-radius: 0 0 12px 12px; /* Kisebb lekerekítés */
+    z-index: 2;
+  }
 
-/* Gombok vízszintes elrendezése */
-.swipe-controls {
+  /* Telefon "képernyője" */
+  .phone-screen {
+    /* width: auto; */ /* Méretet a tartalom adja */
+    /* height: auto; */
+    background: linear-gradient(135deg, #ffebee, #fce4ec);
+    border-radius: 25px; /* Belső lekerekítés */
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
     display: flex;
-    justify-content: center;
-    gap: 20px; /* Térköz a gombok között */
-    margin-top: 20px;
-}
+    flex-direction: column;
+  }
 
-.swipe-button {
-    border: none;
-    border-radius: 50%;
-    width: 60px;
-    height: 60px;
-    font-size: 32px;
-    cursor: pointer;
-    display: flex;
+  /* Card container PC nézetben - MOST ENNEK ADUNK MÉRETET! */
+  .phone-screen .card-container {
+    width: 350px; /* <<<--- KÁRTYA TERÜLET SZÉLESSÉGE */
+    height: 520px; /* <<<--- KÁRTYA TERÜLET MAGASSÁGA */
+    max-width: none; /* Nincs max */
+    /* flex-grow: 0; */ /* Nem növekszik */
+    margin: 10px;
+    margin-bottom: 0;
+    padding: 0; /* Nincs belső padding, a kártya tölti ki */
+    box-sizing: border-box;
+    perspective: none;
+    min-height: initial;
+    position: relative; /* Kell az abszolút pozícionált swipe elemhez */
+  }
+
+  /* Háttérszín változás swipe közben (csak PC nézet) */
+  .phone-screen.swipe-left-bg {
+    background: linear-gradient(
+        rgba(253, 41, 123, 0.4) 0%,
+        rgba(255, 101, 91, 0.4) 100%
+      ),
+      linear-gradient(135deg, #ffebee, #fce4ec);
+  }
+
+  .phone-screen.swipe-right-bg {
+    background: linear-gradient(
+        rgba(43, 219, 124, 0.4) 0%,
+        rgba(29, 233, 182, 0.4) 100%
+      ),
+      linear-gradient(135deg, #ffebee, #fce4ec);
+  }
+
+  /* A kártya stílusa PC-n (a telefonon belül) */
+  .phone-screen .card {
+    border-radius: 10px; /* Kisebb kerekítés a kártyán */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  /* Fontos: A kártya ::before elemének is kisebb lekerekítés kell */
+  .phone-screen .card::before {
+    border-radius: 0 0 10px 10px;
+  }
+
+  /* Kártya képe PC-n */
+  .phone-screen .card-image {
+  } /* Nincs különösebb változás */
+
+  /* Kártya szöveg PC-n */
+  .phone-screen .card-text {
+    padding: 15px;
+    font-size: 1.3rem;
+  }
+
+  /* Swipe kontroller PC nézetben (a telefonon belül) */
+  .phone-screen .swipe-controls {
+    width: 100%; /* Igazodjon a phone-screen szélességéhez */
+    max-width: none;
+    padding: 12px 0; /* Kisebb padding */
+    margin-top: 0;
+    box-sizing: border-box;
+    flex-shrink: 0; /* Ne zsugorodjon */
+    position: relative; /* Normál flex elemként a card-container alatt */
+    z-index: 5;
+  }
+
+  /* Gombok PC-n */
+  .phone-screen .swipe-button {
+    width: 55px; /* Kicsit kisebb gombok */
+    height: 55px;
+    font-size: 26px;
+  }
+
+  /* Képváltó overlay magas z-index PC-n */
+  .phone-screen .image-nav-overlay {
+     /* A korábbi !important nem szép, de ha kell, maradhat: */
+     /* z-index: 999 !important; */
+     z-index: 6; /* Legyen a swipe feedback felett is */
+  }
+
+  /* Nincs ember üzenet PC-n */
+  .phone-screen .no-people-message {
+    /* Középre igazítás a card-container helyett */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%; /* Szélesség */
+    max-width: 300px; /* Max szélesség */
+    padding: 20px;
+    font-size: 0.9rem;
+    background-color: rgba(0, 0, 0, 0.1);
+    color: #333;
+    border-radius: 10px;
+  }
+  .phone-screen .no-people-message h2 {
+    font-size: 1rem;
+  }
+
+  /* Swipe feedback PC-n (a kártyán belül) */
+  .phone-screen .swipe-feedback {
+    font-size: 28px;
+    padding: 8px 15px;
+    top: 20px; /* Kicsit feljebb */
+    border-width: 3px;
+  }
+  .phone-screen .swipe-feedback.nope {
+    left: 15px;
+  }
+  .phone-screen .swipe-feedback.like {
+    right: 15px;
+  }
+
+  /* Szimulált státuszsáv - LÁTHATÓVÁ TÉVE DESKTOPON */
+  .phone-screen .phone-status-bar {
+    height: 35px; /* Állapotsor magassága */
+    padding: 0 18px; /* Belső térköz oldalról */
+    display: flex; /* <<<--- ITT VAN ÚJRA LÁTHATÓVÁ TÉVE */
+    justify-content: space-between; /* Elemek szétosztása */
     align-items: center;
-    justify-content: center;
-    transition: all 0.2s cubic-bezier(0.18, 0.89, 0.32, 1.28);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    user-select: none;
-    background-color: white; /* Háttérszín hozzáadva */
-    color: #ff3366; /* Szöveg színe */
-}
+    background-color: #f8f8f8; /* Világosszürke háttér az állapotsornak */
+    /* border-bottom: 1px solid #eee; */ /* Opcionális elválasztó */
+    color: #333; /* Sötétebb szövegszín */
+    font-size: 0.85rem;
+    font-weight: 500;
+    flex-shrink: 0; /* Ne zsugorodjon */
+    box-sizing: border-box;
+  }
+  .phone-screen .status-bar-time {
+    /* Nincs különösebb extra stílus */
+  }
+  .phone-screen .status-bar-brand {
+    font-weight: 600;
+    color: #ff3366; /* Márka szín */
+    display: inline-flex; /* Flexbox az igazításhoz */
+    align-items: center; /* Függőleges középre igazítás */
+    gap: 5px; /* Térköz az ikon és a szöveg között */
+  }
 
-.swipe-button--left {
-    background-color: #ff6f61; /* Piros háttér */
-    color: white; /* Fehér szöveg */
-}
+} /* @media (min-width: 1024px) vége */
 
-.swipe-button--right {
-    background-color: #4caf50; /* Zöld háttér */
-    color: white; /* Fehér szöveg */
-}
 
-.swipe-button:disabled {
-    background-color: #ccc; /* Szürke háttér letiltott állapotban */
-    cursor: not-allowed;
+/* ----- Mobil specifikus felülírások (Extra kicsi képernyők) ----- */
+@media (max-width: 480px) {
+  .main-screen-container h1 {
+    font-size: 1.3rem;
+    margin-bottom: 5px;
+  }
+
+  .card-container {
+    height: 68vh;
+    max-width: 95vw;
+  }
+
+  .swipe-button {
+    width: 55px;
+    height: 55px;
+    font-size: 26px;
+  }
+
+  .card-text {
+    font-size: 1.4rem;
+    padding: 15px;
+  }
+
+  .swipe-feedback {
+    font-size: 28px;
+    padding: 8px 15px;
+    top: 30px;
+  }
+
+  .swipe-feedback.nope {
+    left: 15px;
+  }
+
+  .swipe-feedback.like {
+    right: 15px;
+  }
 }

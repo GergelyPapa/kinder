@@ -1,112 +1,50 @@
-import React, { createContext, useState, useEffect, useContext } from "react";
-import { jwtDecode } from "jwt-decode";
-import { useNavigate } from "react-router-dom";
-import axios from "axios"; // Import axios
+import React, { createContext, useState, useEffect } from "react";
 
-const AuthContext = createContext();  
+export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
+  const [authToken, setAuthToken] = useState(localStorage.getItem("accessToken"));
+  const [isAuthenticated, setIsAuthenticated] = useState(!!authToken);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Setup axios interceptors when the component mounts
-  useEffect(() => {
-    // Request interceptor to add token to all requests
-    axios.interceptors.request.use(
-      (config) => {
-        const token = localStorage.getItem("token");
-        if (token) {
-          config.headers.Authorization = `Bearer ${token}`;
-        }
-        return config;
-      },
-      (error) => {
-        return Promise.reject(error);
-      }
-    );
-
-    // Response interceptor to handle authentication errors
-    axios.interceptors.response.use(
-      (response) => response,
-      (error) => {
-        if (error.response && error.response.status === 401) {
-          // Token expired or invalid
-          logout();
-        }
-        return Promise.reject(error);
-      }
-    );
-  }, []);
-
-  // Check for token and validate on mount
-  useEffect(() => {
-    const checkToken = async () => {
-      const token = localStorage.getItem("token");
-      setLoading(true);
-      
-      if (token) {
-        try {
-          const decodedToken = jwtDecode(token);
-          
-          // Check if token is expired
-          const currentTime = Date.now() / 1000;
-          if (decodedToken.exp && decodedToken.exp < currentTime) {
-            console.log("Token expired, logging out");
-            logout();
-          } else {
-            setUser({ 
-              userName: decodedToken.user.userName,
-              role: decodedToken.user.role,
-              walletBalance: decodedToken.user.wallet.balance
-            });
-          }
-        } catch (error) {
-          console.error("Invalid token!", error);
-          logout();
-        }
-      }
-      
-      setLoading(false);
-    };
-
-    checkToken();
-  }, []);
-
-  const login = (token) => {
+  // Frissítse a tokent, ha lejár
+  const refreshToken = async () => {
     try {
-      const decodedToken = jwtDecode(token);
-      localStorage.setItem("token", token);
-      setUser({ 
-        userName: decodedToken.user.userName,
-        role: decodedToken.user.role,
-        walletBalance: decodedToken.user.wallet.balance
+      const refreshResponse = await fetch("http://localhost:5000/auth/refresh", {
+        method: "POST",
+        credentials: "include",  // szükséges a cookie-k kezeléséhez
       });
-      navigate("/"); 
+
+      if (refreshResponse.ok) {
+        const data = await refreshResponse.json();
+        localStorage.setItem("accessToken", data.accessToken);
+        setAuthToken(data.accessToken);
+        setIsAuthenticated(true);
+      } else {
+        setIsAuthenticated(false);
+      }
     } catch (error) {
-      console.error("Login error:", error);
+      console.error("Token refresh error:", error);
+      setIsAuthenticated(false);
     }
   };
 
-  const logout = () => {
-    localStorage.removeItem("token");
-    setUser(null);
-    navigate("/login");
-  };
+  // Ellenőrizze, hogy a token érvényes-e minden egyes oldal betöltésekor
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
 
-
+    if (token) {
+      // Itt meghívhatod a refreshToken-t is, ha szükséges
+      refreshToken().then(() => setIsLoading(false));
+    } else {
+      setIsLoading(false);
+      setIsAuthenticated(false);
+    }
+  }, []);
 
   return (
-    <AuthContext.Provider value={{ 
-      user, 
-      login, 
-      logout, 
-      isAuthenticated: !!user,
-      loading
-    }}>
+    <AuthContext.Provider value={{ authToken, isAuthenticated, setAuthToken, setIsAuthenticated, isLoading }}>
       {children}
     </AuthContext.Provider>
   );
 };
-
-export const useAuth = () => useContext(AuthContext);
