@@ -159,11 +159,11 @@ body {
 /* Swipe irányító gombok (mobil/alap) */
 .swipe-controls {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-around; /* Ez osztja el a teret a gombok KÖRÜL */
   align-items: center;
   gap: 15px;
   margin-top: 10px;
-  width: 80%;
+  width: 80%; /* A szülő szélességének 80%-a */
   max-width: 300px;
   flex-shrink: 0;
 }

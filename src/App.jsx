@@ -9,6 +9,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Navbar from './Components/Navbar';
 import Profile from './Components/Profile';
 import Chat from './Components/Chat'
+import UserProfilePage from './Components/UserProfilePage';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
               <Route path="/mainScreen" element={<MainScreen />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/chat" element={<Chat />} />
+              <Route path="/profile/:userId" element={<UserProfilePage />} />
             </Route>
           </Routes>
         </Router>

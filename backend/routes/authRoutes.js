@@ -13,7 +13,7 @@ router.use(cookieParser());
 
 const activeRefreshTokens = new Set(); // itt tároljuk a tokeneket
 router.post("/register", async (req, res) => {
-  const { username, password, email, dob, bio, sex, searchedSex, minAge, maxAge } = req.body;
+  const { username, password, email, dob, bio,city, sex, searchedSex, minAge, maxAge } = req.body;
 
 
   try {
@@ -31,13 +31,14 @@ router.post("/register", async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-
+    
     const user = await User.create({
       username,
       email,
       passwordHash: hashedPassword,
       dob,
       bio,
+      city,
       sex,
       searchedSex,
       minAge,

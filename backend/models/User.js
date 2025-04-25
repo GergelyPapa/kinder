@@ -26,6 +26,10 @@ const User = sequelize.define("User", {
         allowNull: true,
         defaultValue: null,
     },
+    city:{
+        type: DataTypes.STRING(100),
+        allowNull: false,
+    },
     passwordHash: {
         type: DataTypes.STRING(255),
         allowNull: false,

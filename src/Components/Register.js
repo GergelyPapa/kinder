@@ -33,7 +33,7 @@ const Register = () => {
     confirmPassword: '',
     dob: '', // Születési dátum (YYYY-MM-DD string)
     
-    location: '', // Lakhely
+    city: '', // Lakhely
     sex: 'female', // Alapértelmezett lehet 'female' vagy 'male'
     searchedSex: 'male', // Alapértelmezett
     minAge: '',
@@ -140,15 +140,15 @@ const Register = () => {
           <label>Lakhely (város)</label>
           <input
             type="text"
-            value={formData.location}
+            value={formData.city}
             placeholder="Pl. Budapest"
-            onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+            onChange={(e) => setFormData({ ...formData, city: e.target.value })}
             required
           />
         </div>
       ),
       // Érvényes, ha nem üres a mező (trim() eltávolítja a szóközöket az elejéről/végéről)
-      isValid: () => formData.location.trim() !== "",
+      isValid: () => formData.city.trim() !== "",
     },
     {
       label: "Nemed",
@@ -337,7 +337,7 @@ const Register = () => {
             username: formData.username,
             password: formData.password, // Fontos: Csak HTTPS-en küldd!
             dob: formData.dob,           // Születési dátum (string)
-            location: formData.location, // Lakhely
+            city: formData.city, // Lakhely
             sex: formData.sex,
             searchedSex: formData.searchedSex,
             // Korhatárokat érdemes számként küldeni
@@ -360,7 +360,7 @@ const Register = () => {
                 username: formData.username,
                 password: formData.password,
                 dob: formData.dob,
-                location: formData.location,
+                city: formData.city,
                 sex: formData.sex,
                 searchedSex: formData.searchedSex,
                 minAge: parseInt(formData.minAge),
