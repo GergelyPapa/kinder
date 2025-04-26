@@ -10,6 +10,7 @@ const authenticateToken = (req, res, next) => {
   
   if (!token) {
     return res.status(401).json({ message: "Nincs token, hozzáférés megtagadva!" });
+
   }
 
   try {

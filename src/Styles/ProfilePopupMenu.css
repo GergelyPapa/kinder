@@ -1,0 +1,285 @@
+/* ProfilePopupMenu.css - Letisztult reszponzív dizájn */
+
+.profile-popup-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease-out;
+  backdrop-filter: blur(3px);
+}
+
+.profile-popup-container {
+  background-color: white;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  width: 90%;
+  max-width: 450px;
+  max-height: 85vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  animation: slideUp 0.3s ease-out;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Animációk */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(40px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Fejléc */
+.profile-popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid #f0f0f0;
+  position: sticky;
+  top: 0;
+  background-color: rgba(255, 255, 255, 0.98);
+  z-index: 2;
+  border-radius: 16px 16px 0 0;
+  backdrop-filter: blur(8px);
+}
+
+.profile-popup-header h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #333;
+  font-weight: 600;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  color: #777;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.close-button:hover {
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+.close-button svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Betöltési állapot */
+.profile-loading {
+  padding: 40px 20px;
+  text-align: center;
+  color: #666;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+}
+
+.spinner {
+  border: 3px solid #f0f0f0;
+  border-top: 3px solid #5c6bc0;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 15px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Hibaüzenet */
+.profile-error {
+  padding: 30px 20px;
+  text-align: center;
+  color: #e74c3c;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-error button {
+  margin-top: 20px;
+  background-color: #f0f0f0;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.profile-error button:hover {
+  background-color: #e0e0e0;
+}
+
+/* Profil tartalma */
+.profile-content {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Profil fő rész */
+.profile-main-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Profilkép konténer */
+.profile-image-container {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 3px solid white;
+}
+
+.profile-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Alap információk */
+.profile-basic-info {
+  text-align: center;
+  max-width: 100%;
+}
+
+.profile-name {
+  margin: 0 0 5px;
+  font-size: 22px;
+  font-weight: 700;
+  color: #333;
+}
+
+.profile-details {
+  margin: 0;
+  color: #666;
+  font-size: 16px;
+}
+
+/* Profil leírás */
+.profile-bio {
+  background-color: #f9f9f9;
+  padding: 16px;
+  border-radius: 12px;
+  line-height: 1.6;
+  color: #444;
+}
+
+.profile-bio h5 {
+  margin: 0 0 8px;
+  font-size: 16px;
+  color: #333;
+  font-weight: 600;
+}
+
+.profile-bio p {
+  margin: 0;
+}
+
+/* Galéria */
+.profile-gallery h5 {
+  margin: 0 0 12px;
+  font-size: 16px;
+  color: #333;
+  font-weight: 600;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 8px;
+}
+
+.gallery-item {
+  aspect-ratio: 1/1;
+  overflow: hidden;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  position: relative;
+}
+
+.gallery-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.gallery-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Aktív kis kép */
+.gallery-item.active {
+  box-shadow: 0 0 0 3px #5c6bc0;
+}
+
+/* Reszponzív szabályok */
+@media (max-width: 480px) {
+  .profile-popup-container {
+    width: 95%;
+    max-height: 90vh;
+    border-radius: 16px;
+  }
+  
+  .profile-image-container {
+    width: 140px;
+    height: 140px;
+  }
+
+  .gallery-grid {
+    grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+    gap: 6px;
+  }
+}
+
+/* Nagyobb képernyőkön */
+@media (min-width: 768px) {
+  .profile-image-container {
+    width: 200px;
+    height: 200px;
+  }
+  
+  .profile-content {
+    padding: 24px;
+  }
+}

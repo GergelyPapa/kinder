@@ -1,0 +1,158 @@
+/* src/Styles/UserProfilePage.css */
+.user-profile-container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    font-family: sans-serif;
+    position: relative; /* A vissza gomb pozicionálásához */
+    padding-bottom: 80px; /* Hely a Navbar-nak */
+}
+
+.profile-page-loading,
+.profile-page-error {
+    text-align: center;
+    padding: 40px;
+    font-size: 1.2em;
+    color: #666;
+}
+
+.profile-page-error {
+    color: #e74c3c;
+}
+
+.back-button-profile {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: #eee;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.2s;
+}
+
+.back-button-profile:hover {
+    background-color: #ddd;
+}
+
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-top: 30px; /* Hely a vissza gombnak */
+    border-bottom: 1px solid #eee;
+    padding-bottom: 20px;
+}
+
+.profile-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 20px;
+    border: 3px solid #f0f0f0;
+}
+
+.profile-header-info h1 {
+    margin: 0 0 5px 0;
+    font-size: 2em;
+    color: #333;
+}
+
+.profile-header-info p {
+    margin: 0;
+    color: #777;
+    font-size: 1em;
+}
+
+.profile-section {
+    margin-bottom: 30px;
+}
+
+.profile-section h2 {
+    font-size: 1.4em;
+    color: #444;
+    border-bottom: 2px solid #ff6b8b; /* Téma szín */
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+}
+
+.profile-section p {
+    line-height: 1.6;
+    color: #555;
+}
+
+.profile-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 15px;
+}
+
+.gallery-image-container {
+    width: 100%;
+    padding-bottom: 100%; /* 1:1 képarány */
+    position: relative;
+    overflow: hidden;
+    border-radius: 5px;
+}
+
+.gallery-image-container img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.gallery-image-container img:hover {
+    transform: scale(1.05);
+}
+
+/* Opcionális érdeklődési körök stílusa */
+.interests-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.interest-tag {
+    background-color: #ff6b8b;
+    color: white;
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-size: 0.9em;
+}
+
+/* Reszponzivitás */
+@media (max-width: 600px) {
+    .profile-header {
+        flex-direction: column;
+        text-align: center;
+    }
+    .profile-avatar {
+        margin-right: 0;
+        margin-bottom: 15px;
+        width: 100px;
+        height: 100px;
+    }
+    .user-profile-container {
+        padding: 15px;
+        margin: 10px;
+    }
+    .profile-gallery {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 10px;
+    }
+     .back-button-profile {
+         top: 10px;
+         left: 10px;
+     }
+}
