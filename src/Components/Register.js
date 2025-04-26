@@ -15,21 +15,19 @@ const calculateAge = (dobString) => {
 };
 
 const Register = () => {
-  const [step, setStep] = useState(0);
-  const [formData, setFormData] = useState({
-    email: '',
-    username: '',
-    password: '',
-    confirmPassword: '',
-    dob: '', // Születési dátum (YYYY-MM-DD string)
-    
-    location: '', // Lakhely
-    sex: 'female', // Alapértelmezett lehet 'female' vagy 'male'
-    searchedSex: 'male', // Alapértelmezett
-    minAge: '',
-    maxAge: '',
-    bio: '',
-  });
+    const [formData, setFormData] = useState({
+        email: '',
+        username: '',
+        password: '',
+        confirmPassword: '',
+        dob: '',
+        location: '',
+        sex: 'female', // Default value
+        searchedSex: 'male', // Default value
+        minAge: '18', // Default value
+        maxAge: '60', // Default value
+        bio: '',
+    });
 
     const [step, setStep] = useState(0);
     const [visitedSteps, setVisitedSteps] = useState([true, false, false, false, false, false, false, false]);
@@ -37,352 +35,293 @@ const Register = () => {
     const [errors, setErrors] = useState({});
     const navigate = useNavigate();
 
-  // Regisztrációs lépések definíciója
-  const steps = [
-    {
-      label: "Email",
-      content: (
-        <div className="form-group">
-          <label>Email</label>
-          <input
-            type="email"
-            value={formData.email}
-            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-            required
-          />
-        </div>
-      ),
-      // Egyszerű email formátum ellenőrzés
-      isValid: () => /\S+@\S+\.\S+/.test(formData.email),
-    },
-    {
-      label: "Felhasználónév",
-      content: (
-        <div className="form-group">
-          <label>Felhasználónév</label>
-          <input
-            type="text"
-            value={formData.username}
-            onChange={(e) => setFormData({ ...formData, username: e.target.value })}
-            required
-          />
-        </div>
-      ),
-      isValid: () => formData.username.trim() !== "",
-    },
-    {
-      label: "Jelszó",
-      content: (
-        <div className="form-group">
-          <label>Jelszó (minimum 6 karakter)</label>
-          <input
-            type="password"
-            value={formData.password}
-            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-            required
-            minLength={6} // HTML5 validáció segítésére
-          />
-          <label>Jelszó megerősítése</label>
-          <input
-            type="password"
-            value={formData.confirmPassword}
-            onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-            required
-          />
-          {/* Dinamikus hibaüzenet jelszó eltérésre */}
-          {formData.confirmPassword && formData.password !== formData.confirmPassword && (
-            <p className="error-message">A jelszavak nem egyeznek!</p>
-          )}
-           {/* Dinamikus hibaüzenet túl rövid jelszóra */}
-           {formData.password && formData.password.length < 6 && (
-            <p className="error-message">A jelszónak legalább 6 karakternek kell lennie.</p>
-          )}
-        </div>
-      ),
-      // Érvényes, ha a jelszó min 6 karakter ÉS a két jelszó mező egyezik
-      isValid: () => formData.password.length >= 6 && formData.password === formData.confirmPassword,
-    },
-    {
-      label: "Születési dátum",
-      content: (
-        <div className="form-group">
-          <label>Születési dátum</label>
-          <input
-            type="date" // Dátumválasztó
-            value={formData.dob}
-            onChange={(e) => setFormData({ ...formData, dob: e.target.value })}
-            max={new Date().toISOString().split("T")[0]} // Max dátum a mai nap
-            required
-          />
-           {/* Dinamikus hibaüzenet, ha a kor nem megfelelő */}
-           {formData.dob && calculateAge(formData.dob) < 18 && (
-             <p className="error-message">A regisztrációhoz legalább 18 évesnek kell lenned.</p>
-           )}
-        </div>
-      ),
-      // Érvényes, ha van dátum ÉS az életkor >= 18
-      isValid: () => {
-          if (!formData.dob) return false; // Dátum megadása kötelező
-          const age = calculateAge(formData.dob);
-          return age >= 18; // Minimum korhatár ellenőrzése
-      },
-    },
-    {
-      label: "Lakhely", // Új lépés
-      content: (
-        <div className="form-group">
-          <label>Lakhely (város)</label>
-          <input
-            type="text"
-            value={formData.location}
-            placeholder="Pl. Budapest"
-            onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-            required
-          />
-        </div>
-      ),
-      // Érvényes, ha nem üres a mező (trim() eltávolítja a szóközöket az elejéről/végéről)
-      isValid: () => formData.location.trim() !== "",
-    },
-    {
-      label: "Nemed",
-      content: (
-        <div className="form-group">
-          <label>Nemed</label>
-          <select
-            value={formData.sex}
-            onChange={(e) => setFormData({ ...formData, sex: e.target.value })}
-          >
-            <option value="female">Nő</option>
-            <option value="male">Férfi</option>
-            {/* <option value="other">Egyéb</option> */}
-          </select>
-        </div>
-      ),
-      // Mindig érvényes, mert van alapértelmezett érték és választani kell
-      isValid: () => true,
-    },
-    {
-      label: "Partner neme",
-      content: (
-        <div className="form-group">
-          <label>Milyen nemű partnert keresel?</label>
-          <select
-            value={formData.searchedSex}
-            onChange={(e) => setFormData({ ...formData, searchedSex: e.target.value })}
-          >
-            <option value="male">Férfi</option>
-            <option value="female">Nő</option>
-            {/* <option value="both">Mindegy</option> */}
-          </select>
-        </div>
-      ),
-      // Érvényes, ha van érték (ami itt mindig van az alapértelmezett miatt)
-      isValid: () => !!formData.searchedSex,
-    },
-    {
-      label: "Korhatárok",
-      content: (
-        <div className="form-group">
-          <div className="age-range">
-            <div>
-              <label>Minimum kor</label>
-              <input
-                type="number"
-                min="18"
-                max="120" // Reálisabb felső határ
-                value={formData.minAge}
-                onChange={(e) => setFormData({ ...formData, minAge: e.target.value })}
-                required
-              />
-            </div>
-            <div>
-              <label>Maximum kor</label>
-              <input
-                type="number"
-                min="18"
-                max="120" // Reálisabb felső határ
-                value={formData.maxAge}
-                onChange={(e) => setFormData({ ...formData, maxAge: e.target.value })}
-                required
-              />
-            </div>
-          </div>
-          {/* Dinamikus hibaüzenet, ha a min > max */}
-          {formData.minAge && formData.maxAge && parseInt(formData.minAge) > parseInt(formData.maxAge) && (
-            <p className="error-message">A minimum kor nem lehet nagyobb a maximumnál!</p>
-          )}
-        </div>
-      ),
-      // Érvényes, ha mindkét érték megvan, 18 és 120 között van, ÉS min <= max
-      isValid: () => {
-          const min = parseInt(formData.minAge);
-          const max = parseInt(formData.maxAge);
-          // NaN ellenőrzés fontos, ha a bemenet nem szám
-          if (isNaN(min) || isNaN(max)) return false;
-          return min >= 18 && max >= 18 && max <= 120 && min <= max;
-      }
-    },
-    {
-      label: "Bemutatkozás",
-      content: (
-        <div className="form-group">
-          <label>Rövid bemutatkozás (minimum 10 karakter)</label>
-          <textarea
-            value={formData.bio}
-            onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
-            minLength="10" // HTML5 validáció
-            required
-            rows={4} // Jobb láthatóságért
-          />
-           {/* Dinamikus hibaüzenet */}
-           {formData.bio && formData.bio.trim().length < 10 && (
-             <p className="error-message">A bemutatkozásnak legalább 10 karakter hosszúnak kell lennie.</p>
-           )}
-        </div>
-      ),
-      isValid: () => formData.bio.trim().length >= 10,
-    },
-  ];
+    // --- Validation Logic ---
+    // Checks conditions for a specific step and returns an error object
+    const validateStep = (stepIndex, data) => {
+        const stepErrors = {};
+        const currentStepConfig = steps[stepIndex]; // Get config for the current step
 
-  // Vissza lépés
-  const handleBack = () => {
-    if (step > 0) {
-      setStep(step - 1);
-    }
-  };
+        if (!currentStepConfig) return {}; // Should not happen
 
-  // Tovább lépés (a frissített logikával)
-  const handleNext = () => {
-    const currentStep = steps[step]; // Aktuális lépés objektuma
-
-    // 1. Ellenőrizzük az aktuális lépés érvényességét az isValid függvénnyel
-    if (currentStep.isValid()) {
-        // Opcionális extra ellenőrzések itt, pl. korhatár min < max
-        if (currentStep.label === "Korhatárok" && formData.minAge && formData.maxAge && parseInt(formData.minAge) > parseInt(formData.maxAge)) {
-             alert("A minimum kor nem lehet nagyobb a maximumnál!");
-             return; // Ne lépjen tovább, hiába lenne az isValid() igaz
-         }
-
-        // 3. Ha minden rendben, lépjünk a következő lépésre
-        setStep(step + 1);
-
-    } else {
-        // 4. Ha az aktuális lépés NEM érvényes (isValid() false-t adott vissza)
-        //    Adjunk specifikusabb hibaüzenetet, ha lehetséges.
-
-        if (currentStep.label === "Születési dátum") {
-            // Ha a születési dátum lépés érvénytelen, ÉS van megadott dátum,
-            // akkor az csak azért lehet, mert a kor < 18.
-            if (formData.dob && calculateAge(formData.dob) < 18) { // Explicit kor ellenőrzés itt a hibaüzenethez
-                alert("A regisztrációhoz legalább 18 évesnek kell lenned.");
-            } else {
-                // Ha nincs dátum megadva, vagy más (valószínűtlen) hiba van a dátummal
-                alert("Kérjük, add meg az érvényes születési dátumodat.");
+        // Use a helper function to check individual fields based on step index
+        const checkField = (fieldName, condition, message) => {
+            if (!condition) {
+                stepErrors[fieldName] = message;
             }
-        } else if (currentStep.label === "Jelszó") {
-            // Specifikusabb hiba a jelszóra
-            if (formData.password.length < 6) {
-                alert("A jelszónak legalább 6 karakter hosszúnak kell lennie.");
-            } else if (formData.password !== formData.confirmPassword) {
-                alert("A megadott jelszavak nem egyeznek.");
-            } else {
-                alert("Kérjük, add meg a jelszót és erősítsd meg."); // Általános jelszó hiba
-            }
-        } else if (currentStep.label === "Korhatárok") {
-             // Specifikusabb hiba a korhatárokra
-            if (formData.minAge && formData.maxAge && parseInt(formData.minAge) > parseInt(formData.maxAge)) {
-                alert("A minimum kor nem lehet nagyobb a maximumnál!");
-            } else if (!formData.minAge || !formData.maxAge) {
-                 alert("Kérjük, add meg a minimum és maximum korhatárt.");
-            } else {
-                 alert("Kérjük, érvényes korhatárokat adj meg (18 és 120 között, minimum <= maximum)."); // Általános korhatár hiba
-            }
-        } else if (currentStep.label === "Bemutatkozás") {
-             alert("A bemutatkozásnak legalább 10 karakter hosszúnak kell lennie.");
+        };
+
+        switch (stepIndex) {
+            case 0: // Email
+                checkField('email', /\S+@\S+\.\S+/.test(data.email), 'Érvénytelen email formátum.');
+                break;
+            case 1: // Profile
+                checkField('username', data.username.trim().length >= 3, 'A felhasználónév legalább 3 karakter legyen.');
+                checkField('dob', data.dob !== '', 'Kérjük, add meg a születési dátumodat.');
+                if (data.dob) { // Only check age if dob is provided
+                   checkField('dob_age', calculateAge(data.dob) >= 18, 'Legalább 18 évesnek kell lenned!');
+                }
+                break;
+            case 2: // Password
+                checkField('password', data.password.length >= 6, 'A jelszónak legalább 6 karakter hosszúnak kell lennie.');
+                checkField('confirmPassword', data.password === data.confirmPassword, 'A jelszavak nem egyeznek!');
+                break;
+            case 3: // Location
+                checkField('location', data.location.trim() !== "", 'Kérjük, add meg a lakhelyedet.');
+                break;
+            case 4: // Sex - No validation needed (always has value)
+                break;
+            case 5: // Partner Sex - No validation needed (always has value)
+                break;
+            case 6: // Age Range
+                const minAge = parseInt(data.minAge, 10);
+                const maxAge = parseInt(data.maxAge, 10);
+                checkField('minAge', minAge >= 18, 'A minimum kor nem lehet 18 alatt!');
+                checkField('maxAge', maxAge >= 18, 'A maximum kor nem lehet 18 alatt!');
+                 // Check range only if both are valid numbers >= 18
+                if (minAge >= 18 && maxAge >= 18) {
+                    checkField('ageRange', minAge <= maxAge, 'A minimum kor nem lehet nagyobb a maximumnál!');
+                }
+                break;
+            case 7: // Bio
+                checkField('bio', data.bio.trim().length >= 50, 'A bemutatkozásnak legalább 50 karakter hosszúnak kell lennie.');
+                break;
+            default:
+                break; // No validation for unknown steps
         }
-        // ... további specifikus hibaüzenetek más lépésekhez ...
-        else {
-            // Általános hibaüzenet minden más érvénytelen lépésre
-            alert(`Kérjük, töltsd ki helyesen a(z) "${currentStep.label}" mezőt!`);
+
+        return stepErrors;
+    };
+
+    // Define steps configuration - ADD ERROR DISPLAY
+    const steps = [
+        { // Step 0: Email
+            label: "Email",
+            content: (
+                <div className="form-card">
+                    <h3>Alap információk</h3>
+                    <div className="form-group">
+                        <label htmlFor="email">Email cím*</label>
+                        <input id="email" type="email" placeholder="example@email.com" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} required aria-required="true" autoComplete="email" aria-invalid={!!errors.email} aria-describedby="email-error"/>
+                        {/* Display Email Error */}
+                        {errors.email && <div id="email-error" className="error-message">{errors.email}</div>}
+                    </div>
+                </div>
+            ),
+            // isValid can still be used for quick button disabling, but validateStep provides messages
+            isValid: () => /\S+@\S+\.\S+/.test(formData.email)
+        },
+        { // Step 1: Profile (Multi-column)
+            label: "Profil",
+            content: (
+                <div className="form-card">
+                    <h3>Profil beállítások</h3>
+                    <div className="form-row">
+                        <div className="form-group">
+                            <label htmlFor="username">Felhasználónév*</label>
+                            <input id="username" type="text" placeholder="Becenév" value={formData.username} onChange={(e) => setFormData({ ...formData, username: e.target.value })} required aria-required="true" minLength="3" autoComplete="username" aria-invalid={!!errors.username} aria-describedby="username-error"/>
+                            {/* Display Username Error */}
+                            {errors.username && <div id="username-error" className="error-message">{errors.username}</div>}
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="dob">Születési dátum*</label>
+                            <input id="dob" type="date" value={formData.dob} max={new Date().toISOString().split("T")[0]} onChange={(e) => setFormData({ ...formData, dob: e.target.value })} required aria-required="true" aria-invalid={!!errors.dob || !!errors.dob_age} aria-describedby="dob-error dob-age-error"/>
+                             {/* Display DOB Errors (required and age) */}
+                             {errors.dob && <div id="dob-error" className="error-message">{errors.dob}</div>}
+                             {errors.dob_age && <div id="dob-age-error" className="error-message">{errors.dob_age}</div>}
+                        </div>
+                    </div>
+                    {/* Note: Removed the separate age error display here as it's now combined above */}
+                </div>
+            ),
+            isValid: () => formData.username.trim().length >= 3 && formData.dob !== '' && calculateAge(formData.dob) >= 18
+        },
+        { // Step 2: Password (Multi-column)
+            label: "Jelszó",
+            content: (
+                <div className="form-card">
+                    <h3>Biztonság</h3>
+                    <div className="form-row">
+                        <div className="form-group">
+                            <label htmlFor="password">Jelszó* (minimum 6 karakter)</label>
+                            <input id="password" type="password" placeholder="••••••••" value={formData.password} onChange={(e) => setFormData({ ...formData, password: e.target.value })} required aria-required="true" minLength="6" autoComplete="new-password" aria-invalid={!!errors.password} aria-describedby="password-error"/>
+                             {/* Display Password Error */}
+                             {errors.password && <div id="password-error" className="error-message">{errors.password}</div>}
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="confirmPassword">Jelszó megerősítése*</label>
+                            <input id="confirmPassword" type="password" placeholder="••••••••" value={formData.confirmPassword} onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })} required aria-required="true" minLength="6" autoComplete="new-password" aria-invalid={!!errors.confirmPassword} aria-describedby="confirmPassword-error"/>
+                            {/* Display Confirm Password Error */}
+                            {errors.confirmPassword && <div id="confirmPassword-error" className="error-message">{errors.confirmPassword}</div>}
+                        </div>
+                    </div>
+                     {/* Note: Removed the separate mismatch error display here as it's now combined above */}
+                </div>
+            ),
+            isValid: () => formData.password.length >= 6 && formData.password === formData.confirmPassword
+        },
+        { // Step 3: Location
+            label: "Lakhely",
+            content: (
+                <div className="form-card">
+                    <h3>Helyzet</h3>
+                    <div className="form-group">
+                        <label htmlFor="location">Lakhely városa*</label>
+                        <input id="location" type="text" placeholder="Pl.: Budapest" value={formData.location} onChange={(e) => setFormData({ ...formData, location: e.target.value })} required aria-required="true" autoComplete="address-level2" aria-invalid={!!errors.location} aria-describedby="location-error"/>
+                        {/* Display Location Error */}
+                        {errors.location && <div id="location-error" className="error-message">{errors.location}</div>}
+                    </div>
+                </div>
+            ),
+            isValid: () => formData.location.trim() !== ""
+        },
+        { // Step 4: Sex - No errors to display
+            label: "Nemed",
+            content: ( <div className="form-card"> <h3>Személyes adatok</h3> <div className="form-group"> <label>Nem*</label> <div className="gender-select"> <button type="button" className={`gender-option ${formData.sex === 'female' ? 'active' : ''}`} onClick={() => setFormData({ ...formData, sex: 'female' })} aria-pressed={formData.sex === 'female'}>Nő</button> <button type="button" className={`gender-option ${formData.sex === 'male' ? 'active' : ''}`} onClick={() => setFormData({ ...formData, sex: 'male' })} aria-pressed={formData.sex === 'male'}>Férfi</button> </div> </div> </div> ),
+            isValid: () => true
+        },
+        { // Step 5: Partner Sex - No errors to display
+            label: "Partner",
+            content: ( <div className="form-card"> <h3>Partner keresés</h3> <div className="form-group"> <label>Keresett partner neme*</label> <div className="gender-select"> <button type="button" className={`gender-option ${formData.searchedSex === 'male' ? 'active' : ''}`} onClick={() => setFormData({ ...formData, searchedSex: 'male' })} aria-pressed={formData.searchedSex === 'male'}>Férfi</button> <button type="button" className={`gender-option ${formData.searchedSex === 'female' ? 'active' : ''}`} onClick={() => setFormData({ ...formData, searchedSex: 'female' })} aria-pressed={formData.searchedSex === 'female'}>Nő</button> </div> </div> </div> ),
+            isValid: () => true
+        },
+        { // Step 6: Age Range (Multi-column)
+            label: "Korhatár",
+            content: (
+                <div className="form-card">
+                    <h3>Kor preferenciák</h3>
+                    <div className="form-row">
+                        <div className="form-group">
+                            <label htmlFor="minAge">Minimum kor*</label>
+                            <input id="minAge" type="number" min="18" max="120" value={formData.minAge} onChange={(e) => setFormData({ ...formData, minAge: e.target.value })} required aria-required="true" aria-invalid={!!errors.minAge || !!errors.ageRange} aria-describedby="minAge-error ageRange-error"/>
+                             {/* Display Min Age Error */}
+                             {errors.minAge && <div id="minAge-error" className="error-message">{errors.minAge}</div>}
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="maxAge">Maximum kor*</label>
+                            <input id="maxAge" type="number" min="18" max="120" value={formData.maxAge} onChange={(e) => setFormData({ ...formData, maxAge: e.target.value })} required aria-required="true" aria-invalid={!!errors.maxAge || !!errors.ageRange} aria-describedby="maxAge-error ageRange-error"/>
+                             {/* Display Max Age Error */}
+                             {errors.maxAge && <div id="maxAge-error" className="error-message">{errors.maxAge}</div>}
+                        </div>
+                    </div>
+                     {/* Display Age Range Error (min > max) */}
+                     {errors.ageRange && <div id="ageRange-error" className="error-message">{errors.ageRange}</div>}
+                     {/* Note: Removed separate error displays as they are now combined above */}
+                </div>
+            ),
+            isValid: () => parseInt(formData.minAge, 10) >= 18 && parseInt(formData.maxAge, 10) >= 18 && parseInt(formData.minAge, 10) <= parseInt(formData.maxAge, 10)
+        },
+        { // Step 7: Bio
+            label: "Bemutatkozás",
+            content: (
+                <div className="form-card">
+                    <h3>Magadról</h3>
+                    <div className="form-group">
+                        <label htmlFor="bio">Bemutatkozó szöveg* (minimum 50 karakter)</label>
+                        <textarea id="bio" placeholder="Írj magadról pár szót..." value={formData.bio} onChange={(e) => setFormData({ ...formData, bio: e.target.value })} required aria-required="true" minLength="50" rows="5" aria-describedby="bio-counter bio-error" aria-invalid={!!errors.bio}/>
+                        {/* Display Bio Error */}
+                        {errors.bio && <div id="bio-error" className="error-message">{errors.bio}</div>}
+                        <div id="bio-counter" className="char-counter">{formData.bio.length}/50 karakter</div>
+                    </div>
+                </div>
+            ),
+            isValid: () => formData.bio.trim().length >= 50
         }
-        // Mivel a lépés érvénytelen volt, itt NEM hívjuk meg a setStep(step + 1)-et.
-    }
-  };
+    ];
 
-
-  // Űrlap elküldése
-  const handleSubmit = async (e) => {
-    e.preventDefault(); // Megakadályozza az oldal újratöltődését
-
-    // Végső ellenőrzés az összes lépésre (bár a handleNext már sokat kezel)
-    for (let i = 0; i < steps.length; i++) {
-        if (!steps[i].isValid()) {
-            alert(`Hiba a(z) "${steps[i].label}" lépésnél. Kérjük, ellenőrizd az adataidat.`);
-            setStep(i); // Opcionálisan ugorjunk az első hibás lépésre
-            return; // Megszakítjuk a küldést
-        }
-    }
-
-    // Ha minden rendben van, elküldjük az adatokat
-    try {
-        console.log("Küldendő adatok:", { // Konzol log a teszteléshez
-            email: formData.email,
-            username: formData.username,
-            password: formData.password, // Fontos: Csak HTTPS-en küldd!
-            dob: formData.dob,           // Születési dátum (string)
-            location: formData.location, // Lakhely
-            sex: formData.sex,
-            searchedSex: formData.searchedSex,
-            // Korhatárokat érdemes számként küldeni
-            minAge: parseInt(formData.minAge),
-            maxAge: parseInt(formData.maxAge),
-            bio: formData.bio,
+    useEffect(() => {
+        setVisitedSteps(prev => {
+          const newVisited = [...prev];
+          if (step >= 0 && step < newVisited.length && !newVisited[step]) {
+            newVisited[step] = true;
+          }
+          return newVisited;
         });
+        // Clear errors when step changes
+        setErrors({});
+    }, [step]);
 
-        // Fetch API hívás a backendhez
-        const response = await fetch('http://localhost:5000/auth/register', { // Cseréld le a valós API végpontodra
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                // Szükség esetén Authorization header (pl. JWT tokenhez később)
-                // 'Authorization': `Bearer ${token}`
-            },
-            // A formData állapotot alakítjuk JSON stringgé
-            body: JSON.stringify({
-                email: formData.email,
-                username: formData.username,
-                password: formData.password,
-                dob: formData.dob,
-                location: formData.location,
-                sex: formData.sex,
-                searchedSex: formData.searchedSex,
-                minAge: parseInt(formData.minAge),
-                maxAge: parseInt(formData.maxAge),
-                bio: formData.bio,
-            }),
-            // credentials: 'include', // Ha cookie-kat (pl. session) kell küldeni/fogadni
-        });
+    const handleStepClick = (index) => {
+        if (visitedSteps[index]) {
+            // Optional: Validate before allowing step change back/forward via tabs?
+            // For now, just allow navigation to visited steps.
+            setStep(index);
+        }
+    };
 
-        // Feldolgozzuk a backend válaszát
-        const data = await response.json();
+    const handleBack = () => {
+        if (step > 0) {
+            setErrors({}); // Clear errors when going back
+            setStep(step - 1);
+        }
+    };
 
-        if (!response.ok) {
-            // Ha a backend hibát jelzett (status kód nem 2xx)
-            throw new Error(data.message || `Szerverhiba: ${response.status}`);
+    const handleNext = () => {
+        // Validate the current step
+        const stepErrors = validateStep(step, formData);
+        setErrors(stepErrors); // Update errors state
+
+        // Proceed only if there are no errors for the current step
+        if (Object.keys(stepErrors).length === 0) {
+            if (step < steps.length - 1) {
+                setStep(step + 1); // Errors will be cleared by the useEffect for the new step
+            }
+        } else {
+             // Errors are displayed via the state, no alert needed.
+             // Optionally focus the first field with an error
+             const firstErrorField = Object.keys(stepErrors)[0];
+             const inputElement = document.getElementById(firstErrorField);
+             inputElement?.focus();
+        }
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        // Validate the final step first
+        const finalStepErrors = validateStep(step, formData);
+        setErrors(finalStepErrors);
+
+        if (Object.keys(finalStepErrors).length > 0) {
+             // Errors are displayed, maybe focus first error
+             const firstErrorField = Object.keys(finalStepErrors)[0];
+             const inputElement = document.getElementById(firstErrorField);
+             inputElement?.focus();
+             return; // Stop submission if final step has errors
         }
 
-        // Sikeres regisztráció esetén
-        console.log("Sikeres regisztráció:", data);
-        alert("Sikeres regisztráció! 🎉 Most átirányítunk a bejelentkezéshez.");
-        navigate("/login"); // Átirányítás a bejelentkezési oldalra
+        // Optional: Re-validate ALL steps before final submission for robustness
+        let allErrors = {};
+        for (let i = 0; i < steps.length; i++) {
+            const stepErrors = validateStep(i, formData);
+            allErrors = { ...allErrors, ...stepErrors };
+        }
 
-    } catch (error) {
-        // Hiba történt a hálózati kérés vagy a feldolgozás során
-        console.error("Regisztrációs hiba:", error);
-        alert(`Hiba történt a regisztráció során: ${error.message}`);
-    }
-  };
+        if (Object.keys(allErrors).length > 0) {
+            // Find the first step with an error and navigate to it
+            const firstInvalidStepIndex = steps.findIndex((s, i) => Object.keys(validateStep(i, formData)).length > 0);
+             if (firstInvalidStepIndex !== -1) {
+                 setStep(firstInvalidStepIndex);
+                 // Update errors state to show errors for that specific step
+                 setErrors(validateStep(firstInvalidStepIndex, formData));
+                 alert("Hiba: Nem minden lépés érvényes. Kérjük, ellenőrizd a megjelölt mezőket.");
+             } else {
+                 // Should not happen if final step validation passed, but as a fallback:
+                 alert("Hiba történt a validálás során. Kérjük, ellenőrizd az adatokat.");
+             }
+            return; // Stop submission
+        }
+
+
+        // --- If all validation passes ---
+        try {
+            console.log("Form data submitted:", formData);
+            alert("Sikeres regisztráció!"); // Replace with better UI feedback
+            navigate('/login');
+        } catch (error) {
+            console.error("Hiba a regisztráció során:", error);
+            alert("Hiba történt a regisztráció során. Próbáld újra később.");
+        }
+    };
 
     // Use the actual errors state to determine if the button should *logically* proceed,
     // though the visual disabling might still use the simpler isValid for immediate feedback.
