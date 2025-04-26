@@ -1,190 +1,447 @@
-.container {
-    text-align: center;
-    padding: 40px;
-    font-family: Arial, sans-serif;
-  }
-  
-  h2 {
-    font-size: 28px;
-    margin-bottom: 20px;
-  }
-  
-  .form-box {
-    background: white;
-    padding: 30px;
-    max-width: 500px;
-    margin: auto;
-    border-radius: 12px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-  }
-  
-  .progress-bar {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-  }
-  
-  .progress-step {
-    width: 100px;
-    height: 8px;
-    background: #ccc;
-    border-radius: 5px;
-  }
-  
-  .progress-step.active {
-    background: linear-gradient(135deg, #ff3366, #ff758c);
-  }
-  
-  .form-group {
-    margin-bottom: 20px;
-  }
-  
-  .center {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .input {
-    width: 100%;
-    padding: 12px;
-    font-size: 16px;
-    border: 2px solid #ccc;
-    border-radius: 6px;
-    margin-bottom: 15px;
-  }
-  
-  /* Profilkép előnézetének stílusa */
-.profile-preview {
-  width: 120px;
-  height: 120px;
-  object-fit: cover;
-  border-radius: 50%;
-  border: 3px solid #ff3366;
-  box-shadow: 0 4px 12px rgba(255, 51, 102, 0.3);
-  margin-bottom: 15px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  cursor: pointer;
+/* --- Base Mobile Styles (Mobile First - Revamped) --- */
+:root {
+  --primary-color: #ff6b6b;
+  --success-color: #51cf66;
+  --light-gray: #f9f9f9; /* Used for body bg on larger screens */
+  --medium-gray: #e0e0e0;
+  --input-border-color: #bbb; /* Darker border for inputs */
+  --dark-gray: #777;
+  --text-color: #333; /* Darker base text */
+  --white: #fff;
+  --error-color: #d93025; /* Stronger error red */
+  --button-secondary-bg: #f8f9fa;
+  --button-secondary-border: #dee2e6;
+  --button-secondary-text: #6c757d;
 }
 
-.profile-preview:hover {
-  transform: scale(1.05);
-  box-shadow: 0 6px 16px rgba(255, 51, 102, 0.4);
+/* Basic Reset & Body */
+*, *::before, *::after {
+  box-sizing: border-box;
 }
 
-/* Placeholder stílusa, ha nincs kép kiválasztva */
-.profile-placeholder {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  background-color: #f9f9f9;
-  border: 3px dashed #ff3366;
+html {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0; /* No padding on body */
+  /* Modern System Font Stack */
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  background-color: var(--white); /* White background for mobile 'app' feel */
+  color: var(--text-color);
+  line-height: 1.5;
+  min-height: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Container */
+.auth-container {
+  width: 100%;
+  min-height: 100svh; /* Small Viewport Height */
+  padding: 1.5rem; /* Generous padding */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+.registration-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  flex-shrink: 0; /* Prevent header from shrinking */
+}
+.registration-header h1 {
+  font-size: 1.7rem;
+  color: var(--text-color);
+  margin: 0 0 0.3rem 0;
+  font-weight: 600;
+}
+.registration-header p {
+  color: var(--dark-gray);
+  font-size: 0.95rem;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Progress Dots */
+.progress-indicator {
   display: flex;
   justify-content: center;
-  align-items: center;
-  color: #ff3366;
-  font-weight: bold;
-  font-size: 14px;
-  text-align: center;
-  margin-bottom: 15px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, border-color 0.3s ease;
+  gap: 0.7rem;
+  margin-bottom: 2rem; /* More space below dots */
+  padding: 0;
+  list-style: none;
+  flex-shrink: 0; /* Prevent shrinking */
+}
+.progress-dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--medium-gray);
+  transition: all 0.3s ease;
+  border: none; /* Remove border, rely on background */
+}
+.progress-dot.active {
+  background: var(--primary-color);
+  transform: scale(1.3); /* Make active dot pop more */
+  box-shadow: 0 1px 4px rgba(255, 107, 107, 0.4);
+}
+.progress-dot.completed {
+  background: var(--success-color);
+  transform: scale(1.1); /* Slight scale for completed */
 }
 
-.profile-placeholder:hover {
-  background-color: #ffe6ea;
-  border-color: #ff204e;
+/* Step Indicator Tabs (HIDDEN on Mobile) */
+.step-indicator, .step-status { display: none; }
+
+/* Form Content Area - Make it scrollable with max-height */
+.step-content {
+  flex-grow: 1; /* Takes up available space */
+  max-height: 60vh; /* Limit height (adjust value as needed) */
+  overflow-y: auto;  /* Add vertical scroll if content exceeds max-height */
+  /* Add some padding inside the scrollable area */
+  padding: 0.5rem 0.5rem 1rem 0.5rem;
+   /* Prevent scrollbar from overlapping content visually */
+   margin-right: -15px; /* Push scrollbar slightly out */
+   padding-right: 15px; /* Add padding back to compensate */
+   flex-shrink: 1; /* Allow content area to shrink if needed, but grow */
 }
 
-/* Fájlfeltöltő input stílusa */
-.form-group.center input[type="file"] {
-  display: none; /* Elrejtjük az alapértelmezett fájlfeltöltő gombot */
-}
 
-/* Fájlfeltöltő gomb stílusa (ha szükséges) */
-.file-upload-button {
-  display: inline-block;
-  padding: 10px 20px;
-  background: linear-gradient(135deg, #ff3366, #ff758c);
-  color: white;
+/* Form Card (Visually transparent on mobile) */
+.form-card {
+  background: transparent;
+  padding: 0;
+  margin-bottom: 0.5rem; /* Reduce margin slightly */
   border: none;
-  border-radius: 10px;
-  font-size: 1rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
-  box-shadow: 0 3px 8px rgba(255, 51, 102, 0.4);
+  box-shadow: none;
+}
+.form-card h3 {
+  margin-bottom: 1.2rem;
+  font-size: 1.2rem;
+  color: var(--text-color);
+  border-bottom: 1px solid var(--medium-gray);
+  padding-bottom: 0.6rem;
+  font-weight: 600;
 }
 
-.file-upload-button:hover {
-  background: linear-gradient(135deg, #ff204e, #ff5c76);
-  transform: translateY(-2px);
+/* Form Inputs */
+.form-group {
+  margin-bottom: 1.5rem; /* Consistent spacing for single items */
 }
-  
-  .profile-placeholder {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    background-color: #f9f9f9;
-    border: 3px dashed #ff3366;
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #495057;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+.form-group input,
+.form-group textarea,
+.form-group select {
+  display: block;
+  width: 100%;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--input-border-color);
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  background-color: var(--white);
+  line-height: 1.4;
+  color: var(--text-color);
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+}
+.form-group select { /* Add dropdown arrow */
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%236c757d%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 0.65em auto;
+    padding-right: 2.5rem;
+}
+.form-group textarea {
+    min-height: 90px;
+    resize: vertical;
+}
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: #999;
+    opacity: 1;
+}
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  border-color: var(--primary-color);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.25);
+}
+.error-message {
+  color: var(--error-color);
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+  display: block;
+  font-weight: 500;
+}
+.char-counter {
+  text-align: right;
+  font-size: 0.8rem;
+  color: var(--dark-gray);
+  margin-top: 0.3rem;
+  display: block;
+}
+
+/* Row styling for multi-column layouts */
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 1.5rem; /* Horizontal gap only */
+  margin-bottom: 1.5rem; /* Spacing below entire row */
+}
+.form-row .form-group {
+  flex: 1 1 calc(50% - 0.75rem); /* 2 columns, adjust for gap */
+  min-width: 150px;
+  margin-bottom: 0; /* Remove individual margin */
+}
+
+/* Gender Selector (Stacked on Mobile) */
+.gender-select {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.gender-option {
+  flex-grow: 1;
+  padding: 0.9rem;
+  text-align: center;
+  border: 1px solid var(--input-border-color);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+  background-color: var(--white);
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #495057;
+}
+.gender-option:hover {
+    background-color: #f8f9fa;
+    border-color: #adb5bd;
+}
+.gender-option.active {
+  background-color: var(--primary-color);
+  color: var(--white);
+  border-color: var(--primary-color);
+  box-shadow: 0 2px 5px rgba(255, 107, 107, 0.3);
+}
+
+/* Navigation */
+.navigation-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  margin-top: auto; /* Push to bottom */
+  padding: 1.5rem 0 0 0; /* Padding above */
+  border-top: 1px solid var(--medium-gray);
+  flex-shrink: 0; /* Prevent nav from shrinking */
+}
+.nav-button {
+  display: block;
+  width: 100%;
+  padding: 1rem 1.1rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+  text-align: center;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+}
+.nav-button:active {
+    transform: translateY(1px);
+}
+.back-button {
+  background-color: var(--button-secondary-bg);
+  color: var(--button-secondary-text);
+  order: 2;
+  border: 1px solid var(--button-secondary-border);
+  box-shadow: none;
+  font-weight: 500;
+}
+.back-button:hover {
+     background-color: #e9ecef;
+}
+.next-button, .submit-button {
+  color: var(--white);
+  order: 3;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+.next-button { background-color: var(--primary-color); }
+.next-button:hover { background-color: #e55d5d; }
+.submit-button { background-color: var(--success-color); }
+.submit-button:hover { background-color: #3fa859; }
+
+.step-counter {
+  font-size: 0.9rem;
+  color: var(--dark-gray);
+  text-align: center;
+  width: 100%;
+  order: 1;
+  margin-bottom: 0.75rem;
+  font-weight: 500;
+}
+
+/* Redirect Link */
+.login-redirect {
+  text-align: center;
+  margin: 1.5rem 0 0 0;
+  padding-bottom: 1rem; /* Final spacing */
+  font-size: 0.9rem;
+  color: var(--dark-gray);
+  flex-shrink: 0; /* Prevent shrinking */
+}
+.login-redirect a {
+  color: var(--primary-color);
+  font-weight: 600;
+  text-decoration: none;
+}
+.login-redirect a:hover {
+  text-decoration: underline;
+}
+
+
+/* --- Responsive Stacking for Form Rows --- */
+@media (max-width: 576px) {
+  .form-row {
+    gap: 0; /* Remove horizontal gap when stacking */
+  }
+  .form-row .form-group {
+    flex-basis: 100%; /* Stack to full width */
+    margin-bottom: 1.5rem; /* Add margin back when stacked */
+  }
+  .form-row .form-group:last-child {
+    margin-bottom: 0; /* No margin on last item in the row */
+  }
+  /* Ensure the row itself doesn't add extra margin when stacked */
+  .form-row {
+      margin-bottom: 0;
+  }
+  /* Re-apply margin to the last group if it's inside a row */
+   .form-row + *:not(.form-row), /* Add margin below a row if followed by non-row */
+   form > .form-row:last-child .form-group:last-child /* Ensure last group in last row has margin */
+    {
+      margin-bottom: 1.5rem;
+  }
+   /* Or simply rely on the default .form-group margin applied above */
+}
+
+
+/* --- Tablet Styles (~768px and up) --- */
+@media (min-width: 768px) {
+  body {
+    background-color: var(--light-gray);
+  }
+  .auth-container {
+    width: 90%;
+    max-width: 700px;
+    min-height: auto; /* Allow height to adjust */
+    height: auto; /* Override min-height */
+    margin: 2rem auto;
+    padding: 2rem;
+    background: var(--light-gray);
+    border-radius: 12px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--medium-gray);
+    display: block; /* Revert flex layout */
+  }
+
+   /* Adjust content scrolling for larger screens - maybe less restrictive */
+  .step-content {
+      max-height: none; /* Remove max-height */
+      overflow-y: visible; /* Remove scroll */
+      padding: 0; /* Remove specific padding */
+      margin-right: 0;
+      padding-right: 0;
+  }
+
+  .registration-header { margin-bottom: 1.5rem; }
+  .registration-header h1 { font-size: 2rem; }
+  .registration-header p { font-size: 1rem; }
+
+  /* Hide dots, SHOW TABS & Allow Wrapping */
+  .progress-indicator { display: none; }
+  .step-indicator {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #ff3366;
-    font-weight: bold;
-    font-size: 14px;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0;
+    border-bottom: 1px solid #eee;
+    flex-shrink: 0; /* Keep indicators from shrinking */
+  }
+  .step {
+    flex-grow: 1;
+    flex-basis: auto;
+    min-width: 90px;
+    padding: 0.7rem 1rem;
     text-align: center;
-    margin-bottom: 15px;
+    background: var(--white);
+    border-radius: 8px;
     cursor: pointer;
-    transition: background-color 0.3s ease, border-color 0.3s ease;
+    transition: all 0.2s ease;
+    position: relative;
+    border: 1px solid #eee;
+    font-size: 0.9rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+    color: var(--text-color);
   }
-  
-  .button-group {
-    display: flex;
-    justify-content: space-between;
+  .step.active { border-color: var(--primary-color); color: var(--primary-color); box-shadow: 0 3px 8px rgba(255,107,107,0.25); font-weight: 500; background: #fff; }
+  .step.completed { background: #e3f9e5; border-color: #a3e9a4; color: #386641; }
+  .step.locked { opacity: 0.6; cursor: not-allowed; background: #f0f0f0; border-color: #e0e0e0; color: var(--dark-gray); }
+  .step-status {
+    display: flex; position: absolute; top: -6px; right: -6px; width: 18px; height: 18px; background: var(--success-color); color: var(--white); border-radius: 50%; align-items: center; justify-content: center; font-size: 11px; font-weight: bold; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
   }
-  
-  .btn {
-    padding: 12px 18px;
-    font-size: 18px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: 0.3s;
+
+  /* Re-introduce card styling */
+  .form-card {
+    background: var(--white); border-radius: 8px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.07); margin-bottom: 1.5rem; border: 1px solid #eee;
   }
-  
-  .btn.primary {
-    background: linear-gradient(135deg, #ff3366, #ff758c);
-    color: white;
+  .form-card h3 { font-size: 1.2rem; }
+
+  /* Horizontal layouts for selectors */
+  .gender-select { flex-direction: row; gap: 1rem; }
+  .gender-option { font-size: 0.9rem; padding: 0.8rem; }
+  .form-row { /* Ensure rows stay as rows */
+      /* flex-wrap: nowrap; */ /* Or keep wrap? Keep wrap usually better */
   }
-  
-  .btn.primary:hover {
-    background: linear-gradient(135deg, #ff3366, #ff758c);
+  .form-row .form-group { /* Ensure columns have basis */
+      /* flex-basis: calc(50% - 0.75rem); */ /* Already set */
   }
-  
-  .btn.secondary {
-    background: #ccc;
+
+
+  /* Horizontal navigation */
+  .navigation-buttons {
+    flex-direction: row; justify-content: space-between; align-items: center; margin-top: 2rem; padding-top: 0; border-top: none; flex-shrink: 0;
   }
-  
-  .btn.secondary:hover {
-    background: #aaa;
-  }
-  
-  /* Új stílusok a "Már van fiókod? Jelentkezz be" szöveghez */
-  p {
-    font-size: 16px;
-    color: #555;
-    margin-top: 20px;
-  }
-  
-  p a {
-    color: #ff3366;
-    text-decoration: none;
-    font-weight: bold;
-    transition: color 0.3s ease, text-decoration 0.3s ease;
-  }
-  
-  p a:hover {
-    color: #ff204e;
-    text-decoration: underline;
-  }
+  .nav-button { width: auto; padding: 0.8rem 1.6rem; font-size: 0.95rem; }
+  .step-counter { order: 2; margin: 0 1rem; width: auto; font-size: 0.9rem; }
+  .back-button { order: 1; }
+  .next-button, .submit-button { order: 3; }
+  .login-redirect { margin-top: 2rem; padding-bottom: 0; flex-shrink: 0; }
+}
+
+
+/* --- Desktop Styles (~1024px and up) --- */
+@media (min-width: 1024px) {
+  .auth-container { max-width: 800px; padding: 2.5rem; }
+  .registration-header h1 { font-size: 2.2rem; }
+  .step-indicator { gap: 0.8rem; }
+  .step { padding: 0.8rem 1.2rem; font-size: 0.95rem; }
+  .form-card { padding: 1.8rem; }
+  .form-card h3 { font-size: 1.3rem; }
+  .form-group input, .form-group textarea, .form-group select { font-size: 1rem; }
+  .nav-button { font-size: 1rem; padding: 0.9rem 1.8rem; }
+}
