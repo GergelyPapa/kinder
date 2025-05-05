@@ -12,16 +12,7 @@ router.post("/swipe", authenticateToken, async (req, res) => {
     const { swipedUserId, swipeDirection } = req.body;
     const userId = req.user.id;
 
-    if (swipeDirection === "left") {
-   
-      await Swipe.create({
-        swiper_id: userId,
-        swiped_id: swipedUserId,
-        direction: swipeDirection,
-      });
-      return res.status(200).json({ message: "Left swipe recorded" });
-    }
-
+    
     const newSwipe = await Swipe.create({
       swiper_id: userId,
       swiped_id: swipedUserId,
