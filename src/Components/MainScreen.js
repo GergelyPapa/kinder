@@ -279,6 +279,7 @@ const MainScreen = () => {
                                         onCardLeftScreen={(dir) => onCardLeftScreen(person.id, dir)}
                                         preventSwipe={["up", "down"]}
                                         flickOnSwipe={true}
+                                        flickThreshold={0.2} // Lower threshold for easier swiping
                                         // Ezek a prop-ok kezelik a háttérszín váltást
                                         onSwipeRequirementFulfilled={isTopCard ? handleSwipeRequirementFulfilled : undefined}
                                         onSwipeRequirementUnfulfilled={isTopCard ? handleSwipeRequirementUnfulfilled : undefined}

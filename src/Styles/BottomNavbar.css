@@ -1,0 +1,149 @@
+/* src/Styles/BottomNavbar.css */
+
+/* Alap stílusok a navigációs sávhoz - Lebegő, lekerekített stílus */
+.bottom-navbar {
+  position: fixed;
+  /* Eltolás az aljától és oldalaktól a lebegő hatáshoz */
+  bottom: 15px;
+  left: 15px;
+  right: 15px;
+  /* Magasság beállítása */
+  height: 60px;
+  /* Háttér - Enyhén átlátszó fehér vagy üveg effektus */
+  /* background-color: rgba(255, 255, 255, 0.95); */ /* Opció 1: Áttetsző fehér */
+  background: rgba(255, 255, 255, 0.85); /* Opció 2: Üveg effektushoz alap */
+  backdrop-filter: blur(10px); /* Opció 2: Üveg effektus (böngészőfüggő) */
+  -webkit-backdrop-filter: blur(10px); /* Safarihoz */
+
+  display: flex; /* Ensure visibility */
+  justify-content: space-around; /* Elemetek elosztása */
+  align-items: center; /* Középre igazítás */
+
+  /* Erősebb lekerekítés */
+  border-radius: 30px;
+
+  /* Finomabb, de határozottabb árnyék */
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.12);
+
+  z-index: 1001; /* Set higher than chat-container to ensure visibility */
+  /* border-top: none; */ /* Felső keret eltávolítva a lebegő stílushoz */
+  padding: 5px; /* Kis belső padding a sávon belül */
+  box-sizing: border-box; /* Padding beleszámít a méretbe */
+}
+
+/* Navigációs elemek (linkek és gombok) általános stílusai */
+.nav-item {
+  display: flex;
+  /* flex-direction: column; */ /* Ezt lehet, hogy nem kell, ha csak ikon van */
+  align-items: center;
+  justify-content: center;
+  /* flex: 1; */ /* Ezt kivesszük, nem kell nyúljon */
+  height: calc(100% - 10px); /* Magasság a belső padding miatt kicsit kevesebb */
+  min-width: 50px; /* Minimális szélesség, hogy ne legyen túl kicsi */
+  text-decoration: none;
+  color: #666666; /* Kicsit sötétebb inaktív szín */
+  transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out, transform 0.1s ease;
+  -webkit-tap-highlight-color: transparent;
+  /* Lekerekítés magukon az elemeken is */
+  border-radius: 25px;
+  padding: 0 10px; /* Vízszintes padding az ikon körül */
+
+  /* Alap gomb stílusok eltávolítása (gombokhoz fontos) */
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit; /* Örökölje a betűtípust */
+}
+
+/* Ikon konténer stílusai (ha külön span-t használsz, de lehet direkt az svg-re is) */
+.nav-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Méretet mostantól az SVG veszi fel */
+}
+
+/* Közvetlenül beillesztett SVG stílusai */
+.nav-icon svg {
+  width: 24px;
+  height: 24px;
+  fill: currentColor; /* Örökli a .nav-item színét */
+  display: block;
+  transition: fill 0.2s ease-in-out;
+}
+
+/* Szöveg stílusai (ha használnánk) - maradhat rejtve */
+.nav-text {
+  display: none;
+  /* font-size: 11px; */
+  /* font-weight: 500; */
+}
+
+/* Hover állapot stílusai - Enyhe háttér hover esetén */
+.nav-item:hover {
+  color: #333333; /* Sötétebb szín hover esetén */
+  background-color: rgba(0, 0, 0, 0.04); /* Nagyon halvány szürke háttér */
+}
+
+/* Active (kattintás közben) állapot */
+.nav-item:active {
+    transform: scale(0.92); /* Kicsit erősebb benyomás */
+    background-color: rgba(0, 0, 0, 0.06);
+}
+
+/* Aktív NavLink stílusa - Kiemeltebb háttérrel */
+.nav-item.active {
+  color: #ff3366; /* Aktív szín (Tinder pirosas) */
+  background-color: rgba(255, 51, 102, 0.1); /* Világos pirosas háttér */
+}
+
+/* Aktív elem SVG-jének színe (már örökli a .active color miatt) */
+/* .nav-item.active .nav-icon svg { */
+   /* fill: #ff3366; */ /* Nem szükséges a currentColor miatt */
+/* } */
+
+
+/* Külön stílusok a kijelentkezés gombhoz */
+.logout-button {
+  /* Itt lehetnének egyedi eltérések */
+  color: #888888; /* Legyen kicsit halványabb, mint a többi inaktív */
+}
+
+.logout-button:hover {
+  color: #ff3366; /* Legyen piros hoverre */
+  background-color: rgba(255, 51, 102, 0.05); /* Halvány pirosas háttér hoverre */
+}
+
+/* ----- Reszponzív beállítások ----- */
+@media (min-width: 768px) {
+  .bottom-navbar {
+    /* Nagyobb képernyőn lehetne fix szélességű és középre igazított */
+    left: 50%;
+    transform: translateX(-50%); /* Pontosan középre */
+    width: auto; /* Méret igazodjon a tartalomhoz */
+    max-width: 500px; /* Vagy egy fix max szélesség */
+    bottom: 20px; /* Kicsit feljebb */
+    padding: 8px; /* Nagyobb belső padding */
+    gap: 10px; /* Kis térköz az elemek között */
+    justify-content: center; /* Elemetek középre */
+  }
+
+  .nav-item {
+     /* flex: 0 1 auto; */ /* Nem kell nyúljon */
+     /* flex-direction: row; */ /* Maradhat csak ikon */
+     /* gap: 8px; */
+     padding: 0 15px; /* Kicsit több padding */
+     min-width: 55px;
+  }
+
+  .nav-icon svg {
+    width: 22px; /* Kicsit kisebb ikon lehet */
+    height: 22px;
+  }
+
+  /* Ha szöveget is akarnál nagyobb képernyőn */
+  /*
+  .nav-item { flex-direction: row; gap: 8px; padding: 0 15px;}
+  .nav-text { display: block; font-size: 13px; font-weight: 500;}
+  */
+}

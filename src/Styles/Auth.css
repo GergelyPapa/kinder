@@ -11,13 +11,18 @@ body {
 }
 
 .auth-container {
-  max-width: 90%; /* Adjusted for smaller screens */
+  max-width: 95%; /* Increased from 70% */
   width: 100%;
-  margin: 1rem auto; /* Reduced margin for mobile */
-  padding: 1.5rem; /* Reduced padding for mobile */
+  margin: 0.5rem auto; /* Reduced vertical margin */
+  padding: 2rem; /* Increased padding */
+  min-height: 80vh; /* Minimum height to take vertical space */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* Maintain original colors */
   background-color: #ffffff;
-  border-radius: 15px; /* Slightly smaller radius for mobile */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Softer shadow for mobile */
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   position: relative;
   user-select: none;
   outline: none;
@@ -158,6 +163,49 @@ body {
 
 /* Media Queries for Extra Small Screens */
 @media (max-width: 480px) {
+  .auth-container {
+    max-width: 100%;
+    margin: 0;
+    border-radius: 0; /* Full width on mobile */
+    min-height: 100vh; /* Full viewport height */
+    padding: 1.5rem;
+    box-shadow: none; /* Remove shadow for full-width look */
+    /* Maintain original background color */
+    background-color: #ffffff;
+  }
+
+  body {
+    /* Maintain original gradient background */
+    background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+    display: flex;
+    min-height: 100vh;
+  }
+
+  .form-group input,
+  .form-group select {
+    padding: 1rem; /* Larger touch targets */
+    font-size: 1rem;
+  }
+
+  .auth-button {
+    padding: 1.2rem;
+    font-size: 1.1rem;
+  }
+
+  .step-indicator {
+    margin-bottom: 25px; /* More spacing */
+  }
+
+  .form-navigation {
+    gap: 10px; /* Larger gap between buttons */
+  }
+
+  .profile-preview {
+    width: 120px;
+    height: 120px;
+    margin: 15px auto; /* More prominent profile preview */
+  }
+
   .auth-container {
     padding: 1rem; /* Even smaller padding for very small screens */
   }

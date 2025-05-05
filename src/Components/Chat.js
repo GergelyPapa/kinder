@@ -255,6 +255,89 @@ const Chat = () => {
            return () => clearTimeout(timer);
        }
    }, [messages, selectedPartner, isLoadingMessages]);
+
+    // useEffect to handle body scroll locking
+    useEffect(() => {
+      if (selectedPartner) {
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = '';
+      }
+      return () => {
+        document.body.style.overflow = ''; // Reset on component unmount
+      };
+    }, [selectedPartner]);
+
+    useEffect(() => {
+      if (selectedPartner) {
+        document.body.classList.add('chat-active');
+        document.documentElement.style.overflow = 'hidden'; // Prevent body scroll
+      } else {
+        document.body.classList.remove('chat-active');
+        document.documentElement.style.overflow = '';
+      }
+
+      // Cleanup function
+      return () => {
+        document.body.classList.remove('chat-active');
+        document.documentElement.style.overflow = '';
+      };
+    }, [selectedPartner]);
+
+    useEffect(() => {
+      if (selectedPartner) {
+        document.body.classList.add('chat-active');
+        document.documentElement.style.overflow = 'hidden';
+      } else {
+        document.body.classList.remove('chat-active');
+        document.documentElement.style.overflow = '';
+      }
+    }, [selectedPartner]);
+
+    // 6. Handle Body Class and Scroll Lock when Chat is Active/Inactive
+    useEffect(() => {
+        const body = document.body;
+        const rootElement = document.documentElement; // Usually <html>
+
+        if (selectedPartner) {
+            // Add class to body when chat is active
+            console.log("CHAT LIST DEBUG: Chat ACTIVE - Adding class 'chat-view-active'"); // Check this log
+            body.classList.add('chat-view-active'); // Use a specific class name
+            // Prevent body scrolling on mobile when chat takes full screen
+            rootElement.style.overflow = 'hidden'; // Target <html> for better scroll lock
+            body.style.overflow = 'hidden'; // Add to body as well for robustness
+        } else {
+            // Remove class when chat is inactive (LIST VIEW)
+            console.log("CHAT LIST DEBUG: Chat INACTIVE - Removing class 'chat-view-active'"); // Check this log
+            body.classList.remove('chat-view-active');
+            // Restore body scrolling
+            rootElement.style.overflow = '';
+            body.style.overflow = '';
+        }
+
+        // Cleanup function: Always runs when component unmounts or selectedPartner changes
+        return () => {
+            console.log("CHAT LIST DEBUG: Effect CLEANUP - Removing class 'chat-view-active'"); // Check this log
+            body.classList.remove('chat-view-active');
+            rootElement.style.overflow = '';
+            body.style.overflow = '';
+        };
+    }, [selectedPartner]); // Dependency: run only when selectedPartner changes
+
+    useEffect(() => {
+      const body = document.body;
+
+      if (selectedPartner) {
+        body.classList.add('chat-window-active');
+      } else {
+        body.classList.remove('chat-window-active');
+      }
+
+      return () => {
+        body.classList.remove('chat-window-active');
+      };
+    }, [selectedPartner]);
+
     // ---
 
     // --- Callback Függvények (Eseménykezelők) ---
@@ -455,6 +538,48 @@ const Chat = () => {
             </div> {/* end chat-window */}
 
             {/* A Modal komponens már nincs itt */}
+
+            {/* Add this style block for responsive design */}
+            <style>
+            {`
+              @media (max-width: 768px) {
+                .chat-container {
+                  position: fixed; /* Fixáljuk a konténert a képernyőn */
+                  top: 0;
+                  left: 0;
+                  right: 0;
+                  bottom: 0;
+                  height: 100% !important; /* Mindenképpen töltsd ki a képernyőt */
+                }
+
+                .chat-window {
+                  width: 100vw; /* Teljes viewport szélesség */
+                  height: 100vh; /* Teljes viewport magasság */
+                  transform: translateX(100%); /* Kezdetben elrejtve jobbra */
+                }
+
+                .chat-container.chat-active .chat-window {
+                  transform: translateX(0); /* Aktív állapotban középre húzva */
+                }
+              }
+              .chat-sidebar {
+                z-index: 10; /* Alacsonyabb, mint a chat-window */
+              }
+
+              .chat-window {
+                z-index: 20; /* Magasabb, hogy mindig előrébb legyen */
+              }
+              .chat-container {
+                margin: 0;
+                padding: 0;
+              }
+
+              .chat-window {
+                margin: 0;
+                padding: 0;
+              }
+            `}
+            </style>
 
         </div> // end chat-container
     );
