@@ -1,23 +1,19 @@
-/* src/Styles/MainScreen.css */
-
-/* Alap HTML és Body stílusok */
 html,
 body {
   margin: 0;
   padding: 0;
   width: 100%;
   height: 100%;
-  overflow: hidden; /* <<<--- ITT TÁVOLÍTSD EL A KOMMENTET */
+  overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
   background-image: url('../Styles//images/background.svg');
-  touch-action: none; /* Mobil érintéshez */
+  touch-action: none;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
     Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
-/* Fő konténer stílusai */
 .main-screen-container {
   display: flex;
   flex-direction: column;
@@ -30,7 +26,6 @@ body {
   box-sizing: border-box;
 }
 
-/* Cím stílusa */
 .main-screen-container h1 {
   color: #fff;
   text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
@@ -40,7 +35,6 @@ body {
   flex-shrink: 0;
 }
 
-/* Kártya konténer alap (mobil) stílusai */
 .card-container {
   position: relative;
   width: 90vw;
@@ -55,7 +49,6 @@ body {
   min-height: 300px;
 }
 
-/* Üzenet, ha nincs több ember */
 .no-people-message {
   text-align: center;
   color: white;
@@ -70,7 +63,6 @@ body {
   font-size: 1.2rem;
 }
 
-/* Swipeable kártya wrapper */
 .swipe {
   position: absolute;
   width: 100%;
@@ -83,7 +75,6 @@ body {
   cursor: grab;
 }
 
-/* Maga a kártya */
 .card {
   position: relative;
   width: 100%;
@@ -98,7 +89,6 @@ body {
   transform: translateZ(0);
 }
 
-/* Kártya képe */
 .card-image {
   position: absolute;
   top: 0;
@@ -110,7 +100,6 @@ body {
   z-index: 1;
 }
 
-/* Átmenet a kép alján */
 .card::before {
   content: '';
   position: absolute;
@@ -124,7 +113,6 @@ body {
   border-radius: 0 0 25px 25px;
 }
 
-/* Kártya szövege */
 .card-text {
   position: relative;
   color: white;
@@ -140,13 +128,12 @@ body {
   line-height: 1.2;
 }
 
-/* Képváltó overlay-ek */
 .image-nav-overlay {
   position: absolute;
   top: 0;
   bottom: 0;
   width: 50%;
-  z-index: 4; /* Z-index növelve, hogy a swipe feedback felett legyen? Teszteld! */
+  z-index: 4;
   cursor: pointer;
 }
 .image-nav-overlay.left {
@@ -156,19 +143,17 @@ body {
   right: 0;
 }
 
-/* Swipe irányító gombok (mobil/alap) */
 .swipe-controls {
   display: flex;
-  justify-content: space-around; /* Ez osztja el a teret a gombok KÖRÜL */
+  justify-content: space-around;
   align-items: center;
   gap: 15px;
   margin-top: 10px;
-  width: 80%; /* A szülő szélességének 80%-a */
+  width: 80%;
   max-width: 300px;
   flex-shrink: 0;
 }
 
-/* Gombok stílusa */
 .swipe-button {
   border: none;
   border-radius: 50%;
@@ -209,7 +194,6 @@ body {
   transform: none;
 }
 
-/* Swipe visszajelzés (NOPE/LIKE) */
 .swipe-feedback {
   position: absolute;
   top: 40px;
@@ -250,16 +234,13 @@ body {
   transform: scale(1) rotate(15deg);
 }
 
-/* Szimulált státuszsáv - ALAPÉRTELMEZETTEN REJTETT (mobil) */
 .phone-status-bar {
   display: none;
 }
 
-/* ----- Asztali nézet - Telefon keret igazodik a tartalomhoz ----- */
 @media (min-width: 1024px) {
   html,
   body {
-    /* overflow: auto; */ /* Ha kell a görgetés asztalon, vedd ki a kommentet */
   }
 
   .main-screen-container {
@@ -272,42 +253,36 @@ body {
     font-size: 1.8rem;
   }
 
-  /* Telefon keret - Mérete a tartalomtól függ */
   .phone-frame {
-    display: inline-block; /* Méret igazodjon a tartalomhoz */
-    width: auto; /* Nincs fix szélesség */
-    /* height: auto; */ /* Nincs fix magasság */
+    display: inline-block;
+    width: auto;
     background-color: #1c1c1c;
-    border-radius: 40px; /* Külső lekerekítés */
+    border-radius: 40px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3),
       inset 0 0 10px rgba(0, 0, 0, 0.5);
-    padding: 10px; /* Keret vastagsága */
+    padding: 10px;
     box-sizing: border-box;
     position: relative;
     margin: 0 auto;
     flex-shrink: 0;
   }
 
-  /* Opcionális Notch - Lehet, hogy furán néz ki dinamikus méretnél */
   .phone-frame::before {
     content: '';
     position: absolute;
-    top: 0; /* Most a padding tetejéhez igazodik */
+    top: 0;
     left: 50%;
     transform: translateX(-50%);
     width: 40%;
-    height: 20px; /* Kisebb notch */
+    height: 20px;
     background-color: #1c1c1c;
-    border-radius: 0 0 12px 12px; /* Kisebb lekerekítés */
+    border-radius: 0 0 12px 12px;
     z-index: 2;
   }
 
-  /* Telefon "képernyője" */
   .phone-screen {
-    /* width: auto; */ /* Méretet a tartalom adja */
-    /* height: auto; */
     background: linear-gradient(135deg, #ffebee, #fce4ec);
-    border-radius: 25px; /* Belső lekerekítés */
+    border-radius: 25px;
     overflow: hidden;
     position: relative;
     z-index: 1;
@@ -315,22 +290,19 @@ body {
     flex-direction: column;
   }
 
-  /* Card container PC nézetben - MOST ENNEK ADUNK MÉRETET! */
   .phone-screen .card-container {
-    width: 350px; /* <<<--- KÁRTYA TERÜLET SZÉLESSÉGE */
-    height: 520px; /* <<<--- KÁRTYA TERÜLET MAGASSÁGA */
-    max-width: none; /* Nincs max */
-    /* flex-grow: 0; */ /* Nem növekszik */
+    width: 350px;
+    height: 520px;
+    max-width: none;
     margin: 10px;
     margin-bottom: 0;
-    padding: 0; /* Nincs belső padding, a kártya tölti ki */
+    padding: 0;
     box-sizing: border-box;
     perspective: none;
     min-height: initial;
-    position: relative; /* Kell az abszolút pozícionált swipe elemhez */
+    position: relative;
   }
 
-  /* Háttérszín változás swipe közben (csak PC nézet) */
   .phone-screen.swipe-left-bg {
     background: linear-gradient(
         rgba(253, 41, 123, 0.4) 0%,
@@ -347,61 +319,48 @@ body {
       linear-gradient(135deg, #ffebee, #fce4ec);
   }
 
-  /* A kártya stílusa PC-n (a telefonon belül) */
   .phone-screen .card {
-    border-radius: 10px; /* Kisebb kerekítés a kártyán */
+    border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   }
-  /* Fontos: A kártya ::before elemének is kisebb lekerekítés kell */
+
   .phone-screen .card::before {
     border-radius: 0 0 10px 10px;
   }
 
-  /* Kártya képe PC-n */
-  .phone-screen .card-image {
-  } /* Nincs különösebb változás */
-
-  /* Kártya szöveg PC-n */
   .phone-screen .card-text {
     padding: 15px;
     font-size: 1.3rem;
   }
 
-  /* Swipe kontroller PC nézetben (a telefonon belül) */
   .phone-screen .swipe-controls {
-    width: 100%; /* Igazodjon a phone-screen szélességéhez */
+    width: 100%;
     max-width: none;
-    padding: 12px 0; /* Kisebb padding */
+    padding: 12px 0;
     margin-top: 0;
     box-sizing: border-box;
-    flex-shrink: 0; /* Ne zsugorodjon */
-    position: relative; /* Normál flex elemként a card-container alatt */
+    flex-shrink: 0;
+    position: relative;
     z-index: 5;
   }
 
-  /* Gombok PC-n */
   .phone-screen .swipe-button {
-    width: 55px; /* Kicsit kisebb gombok */
+    width: 55px;
     height: 55px;
     font-size: 26px;
   }
 
-  /* Képváltó overlay magas z-index PC-n */
   .phone-screen .image-nav-overlay {
-     /* A korábbi !important nem szép, de ha kell, maradhat: */
-     /* z-index: 999 !important; */
-     z-index: 6; /* Legyen a swipe feedback felett is */
+    z-index: 6;
   }
 
-  /* Nincs ember üzenet PC-n */
   .phone-screen .no-people-message {
-    /* Középre igazítás a card-container helyett */
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 80%; /* Szélesség */
-    max-width: 300px; /* Max szélesség */
+    width: 80%;
+    max-width: 300px;
     padding: 20px;
     font-size: 0.9rem;
     background-color: rgba(0, 0, 0, 0.1);
@@ -412,11 +371,10 @@ body {
     font-size: 1rem;
   }
 
-  /* Swipe feedback PC-n (a kártyán belül) */
   .phone-screen .swipe-feedback {
     font-size: 28px;
     padding: 8px 15px;
-    top: 20px; /* Kicsit feljebb */
+    top: 20px;
     border-width: 3px;
   }
   .phone-screen .swipe-feedback.nope {
@@ -426,36 +384,28 @@ body {
     right: 15px;
   }
 
-  /* Szimulált státuszsáv - LÁTHATÓVÁ TÉVE DESKTOPON */
   .phone-screen .phone-status-bar {
-    height: 35px; /* Állapotsor magassága */
-    padding: 0 18px; /* Belső térköz oldalról */
-    display: flex; /* <<<--- ITT VAN ÚJRA LÁTHATÓVÁ TÉVE */
-    justify-content: space-between; /* Elemek szétosztása */
+    height: 35px;
+    padding: 0 18px;
+    display: flex;
+    justify-content: space-between;
     align-items: center;
-    background-color: #f8f8f8; /* Világosszürke háttér az állapotsornak */
-    /* border-bottom: 1px solid #eee; */ /* Opcionális elválasztó */
-    color: #333; /* Sötétebb szövegszín */
+    background-color: #f8f8f8;
+    color: #333;
     font-size: 0.85rem;
     font-weight: 500;
-    flex-shrink: 0; /* Ne zsugorodjon */
+    flex-shrink: 0;
     box-sizing: border-box;
-  }
-  .phone-screen .status-bar-time {
-    /* Nincs különösebb extra stílus */
   }
   .phone-screen .status-bar-brand {
     font-weight: 600;
-    color: #ff3366; /* Márka szín */
-    display: inline-flex; /* Flexbox az igazításhoz */
-    align-items: center; /* Függőleges középre igazítás */
-    gap: 5px; /* Térköz az ikon és a szöveg között */
+    color: #ff3366;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
   }
+}
 
-} /* @media (min-width: 1024px) vége */
-
-
-/* ----- Mobil specifikus felülírások (Extra kicsi képernyők) ----- */
 @media (max-width: 480px) {
   .main-screen-container h1 {
     font-size: 1.3rem;

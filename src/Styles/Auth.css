@@ -11,15 +11,15 @@ body {
 }
 
 .auth-container {
-  max-width: 95%; /* Increased from 70% */
+  max-width: 95%; 
   width: 100%;
-  margin: 0.5rem auto; /* Reduced vertical margin */
-  padding: 2rem; /* Increased padding */
-  min-height: 80vh; /* Minimum height to take vertical space */
+  margin: 0.5rem auto; 
+  padding: 2rem; 
+  min-height: 8í0vh; 
   display: flex;
   flex-direction: column;
   justify-content: center;
-  /* Maintain original colors */
+  
   background-color: #ffffff;
   border-radius: 15px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
@@ -35,26 +35,26 @@ body {
 .auth-container h2 {
   text-align: center;
   color: #ff3366;
-  margin-bottom: 1.5rem; /* Reduced margin for mobile */
-  font-size: 1.8rem; /* Smaller font size for mobile */
+  margin-bottom: 1.5rem; 
+  font-size: 1.8rem; 
   font-weight: bold;
 }
 
 .step-indicator {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 15px; /* Reduced margin for mobile */
-  gap: 5px; /* Added gap between steps */
+  margin-bottom: 15px; 
+  gap: 5px; 
 }
 
 .step {
   flex: 1;
   text-align: center;
-  padding: 8px; /* Reduced padding for mobile */
+  padding: 8px; 
   border-bottom: 2px solid #ccc;
   color: #ccc;
   font-weight: 600;
-  font-size: 0.9rem; /* Smaller font size for mobile */
+  font-size: 0.9rem; 
   transition: all 0.3s ease;
 }
 
@@ -64,25 +64,25 @@ body {
 }
 
 .form-group {
-  margin-bottom: 1.2rem; /* Reduced margin for mobile */
+  margin-bottom: 1.2rem; 
   width: 100%;
 }
 
 .form-group label {
   display: block;
-  margin-bottom: 0.4rem; /* Reduced margin for mobile */
+  margin-bottom: 0.4rem; 
   color: #444;
   font-weight: 600;
-  font-size: 0.95rem; /* Smaller font size for mobile */
+  font-size: 0.95rem; 
 }
 
 .form-group input,
 .form-group select {
   width: 100%;
-  padding: 0.75rem; /* Reduced padding for mobile */
+  padding: 0.75rem; 
   border: 2px solid #eee;
-  border-radius: 10px; /* Slightly smaller radius for mobile */
-  font-size: 0.95rem; /* Smaller font size for mobile */
+  border-radius: 10px; 
+  font-size: 0.95rem; 
   background-color: #f9f9f9;
   transition: border-color 0.3s ease, background-color 0.3s ease;
   box-sizing: border-box;
@@ -96,11 +96,11 @@ body {
 }
 
 .form-group input[type="file"] {
-  padding: 0.5rem; /* Reduced padding for mobile */
+  padding: 0.5rem; 
   background-color: #f9f9f9;
   border: 2px solid #eee;
-  border-radius: 10px; /* Slightly smaller radius for mobile */
-  font-size: 0.95rem; /* Smaller font size for mobile */
+  border-radius: 10px; 
+  font-size: 0.95rem; 
   transition: border-color 0.3s ease, background-color 0.3s ease;
   box-sizing: border-box;
 }
@@ -114,22 +114,22 @@ body {
 .form-navigation {
   display: flex;
   justify-content: space-between;
-  margin-top: 15px; /* Reduced margin for mobile */
-  gap: 8px; /* Smaller gap for mobile */
+  margin-top: 15px; 
+  gap: 8px; 
 }
 
 .auth-button {
   flex: 1;
-  padding: 0.9rem; /* Reduced padding for mobile */
+  padding: 0.9rem; 
   background: linear-gradient(135deg, #ff3366, #ff758c);
   color: white;
   border: none;
-  border-radius: 10px; /* Slightly smaller radius for mobile */
-  font-size: 1rem; /* Smaller font size for mobile */
+  border-radius: 10px; 
+  font-size: 1rem; 
   font-weight: bold;
   cursor: pointer;
   transition: background 0.3s ease, transform 0.2s ease;
-  box-shadow: 0 3px 8px rgba(255, 51, 102, 0.4); /* Softer shadow for mobile */
+  box-shadow: 0 3px 8px rgba(255, 51, 102, 0.4); 
 }
 
 .auth-button:hover {
@@ -146,9 +146,9 @@ body {
 
 .auth-link {
   text-align: center;
-  margin-top: 1.5rem; /* Reduced margin for mobile */
+  margin-top: 1.5rem; 
   color: #555;
-  font-size: 0.9rem; /* Smaller font size for mobile */
+  font-size: 0.9rem; 
 }
 
 .auth-link a {
@@ -161,21 +161,21 @@ body {
   text-decoration: underline;
 }
 
-/* Media Queries for Extra Small Screens */
+
 @media (max-width: 480px) {
   .auth-container {
     max-width: 100%;
     margin: 0;
-    border-radius: 0; /* Full width on mobile */
-    min-height: 100vh; /* Full viewport height */
+    border-radius: 0; 
+    min-height: 100vh; 
     padding: 1.5rem;
-    box-shadow: none; /* Remove shadow for full-width look */
-    /* Maintain original background color */
+    box-shadow: none; 
+    
     background-color: #ffffff;
   }
 
   body {
-    /* Maintain original gradient background */
+   
     background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
     display: flex;
     min-height: 100vh;
@@ -183,7 +183,7 @@ body {
 
   .form-group input,
   .form-group select {
-    padding: 1rem; /* Larger touch targets */
+    padding: 1rem; 
     font-size: 1rem;
   }
 
@@ -193,50 +193,50 @@ body {
   }
 
   .step-indicator {
-    margin-bottom: 25px; /* More spacing */
+    margin-bottom: 25px;
   }
 
   .form-navigation {
-    gap: 10px; /* Larger gap between buttons */
+    gap: 10px; 
   }
 
   .profile-preview {
     width: 120px;
     height: 120px;
-    margin: 15px auto; /* More prominent profile preview */
+    margin: 15px auto; 
   }
 
   .auth-container {
-    padding: 1rem; /* Even smaller padding for very small screens */
+    padding: 1rem; 
   }
 
   .auth-container h2 {
-    font-size: 1.5rem; /* Smaller font size for very small screens */
+    font-size: 1.5rem; 
   }
 
   .step {
-    font-size: 0.8rem; /* Smaller font size for very small screens */
-    padding: 6px; /* Smaller padding for very small screens */
+    font-size: 0.8rem; 
+    padding: 6px;
   }
 
   .form-group label {
-    font-size: 0.9rem; /* Smaller font size for very small screens */
+    font-size: 0.9rem;
   }
 
   .form-group input,
   .form-group select,
   .form-group input[type="file"] {
-    font-size: 0.9rem; /* Smaller font size for very small screens */
-    padding: 0.65rem; /* Smaller padding for very small screens */
+    font-size: 0.9rem; 
+    padding: 0.65rem; 
   }
 
   .auth-button {
-    padding: 0.8rem; /* Smaller padding for very small screens */
-    font-size: 0.95rem; /* Smaller font size for very small screens */
+    padding: 0.8rem; 
+    font-size: 0.95rem; 
   }
 
   .auth-link {
-    font-size: 0.85rem; /* Smaller font size for very small screens */
+    font-size: 0.85rem; 
   }
 }
 .profile-preview {

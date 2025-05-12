@@ -67,9 +67,9 @@
     font-size: 1em;
     transition: all 0.3s ease;
     background: #f9f9f9;
-    min-height: 80px; /* 120px helyett kisebb alapértelmezett magasság */
-    max-height: 200px; /* Maximális magasság, hogy ne nyúljon túl nagyra */
-    max-width: 250px; /* Maximális szélesség */
+    min-height: 80px; 
+    max-height: 200px; 
+    max-width: 250px; 
   }
   
   .form-group input:focus,

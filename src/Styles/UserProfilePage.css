@@ -1,4 +1,4 @@
-/* src/Styles/UserProfilePage.css */
+
 .user-profile-container {
     max-width: 800px;
     margin: 20px auto;
@@ -7,8 +7,8 @@
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     font-family: sans-serif;
-    position: relative; /* A vissza gomb pozicionálásához */
-    padding-bottom: 80px; /* Hely a Navbar-nak */
+    position: relative; 
+    padding-bottom: 80px; 
 }
 
 .profile-page-loading,

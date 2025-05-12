@@ -139,7 +139,7 @@
   background-color: #e0e0e0;
 }
 
-/* Profil tartalma */
+
 .profile-content {
   padding: 16px;
   display: flex;
@@ -147,7 +147,6 @@
   gap: 24px;
 }
 
-/* Profil fő rész */
 .profile-main-section {
   display: flex;
   flex-direction: column;
@@ -155,7 +154,7 @@
   gap: 16px;
 }
 
-/* Profilkép konténer */
+
 .profile-image-container {
   width: 180px;
   height: 180px;
@@ -175,7 +174,7 @@
   object-fit: cover;
 }
 
-/* Alap információk */
+
 .profile-basic-info {
   text-align: center;
   max-width: 100%;
@@ -194,7 +193,7 @@
   font-size: 16px;
 }
 
-/* Profil leírás */
+
 .profile-bio {
   background-color: #f9f9f9;
   padding: 16px;
@@ -214,7 +213,6 @@
   margin: 0;
 }
 
-/* Galéria */
 .profile-gallery h5 {
   margin: 0 0 12px;
   font-size: 16px;
@@ -248,12 +246,12 @@
   object-fit: cover;
 }
 
-/* Aktív kis kép */
+
 .gallery-item.active {
   box-shadow: 0 0 0 3px #5c6bc0;
 }
 
-/* Reszponzív szabályok */
+
 @media (max-width: 480px) {
   .profile-popup-container {
     width: 95%;
